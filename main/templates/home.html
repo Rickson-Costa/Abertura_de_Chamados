@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+        {% if user.last_name%}
+            <div class="flex items-center justify-center">
+                <div class="flex  justify-center">
+                     <img src="{% static 'images/doc.png' %}" alt="logo" style="width: 80vh; height: 70vh; margin-top: 10vh;" class='mr-4'>
+                </div>
+                <div class="flex flex-col justify-center items-center p-8 w-1/2 " style="h-full;">
+                    <div class="flex flex-col justify-center ">
+                        <h1 class="text-black" style="font-weight: 800; font-size: 5.556vh;">Central de Chamados</h1>
+                        <p class="text-black" style="font-size: 4.444vh">Bem vindo!</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+    {% else %}
+        <div class="flex items-center justify-center">
+            <div class="flex  justify-center">
+                <img src="{% static 'images/doc.png' %}" alt="HNL logo" style="width: 80vh; height: 70vh; margin-top: 10vh;" class='mr-4'>
+            </div>
+            <div class="flex flex-col justify-center items-center p-8 w-1/2 " style="h-full;">
+                <div class="flex flex-col justify-center ">
+                       <p class="text-black" style="font-size: 4vh">Essa conta ainda não está pronta, entre em contato com a T.I!</p>
+                </div>
+                <div class="flex justify-center items-center mt-8">
+                    <label style="font-weight: 500;" class=" p-4 text-white rounded bg-black hover:bg-teal-500"> 
+                        Ligue para o ramal: 0000 
+                    </label>
+                </div>
+            </div>
+
+                </div>
+        </div>
+    {% endif %}
+{% endblock content %}

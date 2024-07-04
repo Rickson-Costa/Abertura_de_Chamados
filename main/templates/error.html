@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+        <div class="flex items-center justify-center">
+            <div class="flex flex-col justify-center items-center p-8 w-1/2 " style="height: 700px;">
+                <div class="flex flex-col text-center ">
+                    <h1 class="text-teal-700" style="font-weight: 600; font-size: 50px;">Abertura de Chamados</h1><br>
+                       <p class="text-red-600" style='font-size: 17px; font-weight: 600;'>Olá, infelizmente encontramos um erro, por favor entre em contato com a TI!</p><br>
+                    <a class=""><h1 class="text-black text-center" style="font-size: 20px; font-weight: 600;">{{erro_code}}</h1></a>
+                </div><br>
+                <div class="flex justify-center items-center mt-8">
+                    <label style="font-weight: 500;" class=" p-4 cursor-pointer text-white rounded bg-teal-700 hover:bg-teal-400"> 
+                    Ramal 00000
+                        <i class="fa-solid fa-arrow-right mr-2"></i>
+                    </label>
+                </div>
+            </div>
+            <div class="w-1/2 flex justify-center items-center">
+                <div class="flex  justify-center">
+                    <img src="{% static 'images/doc.png' %}" alt="HospDocs" style="width: 500px; height: 500px;" class=' mr-4'>
+                </div>
+            </div>
+        </div>
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .conteudo-com-scroll {
+        overflow-y: auto; /* ou 'scroll' para mostrar sempre a barra de rolagem */
+        max-height: 790px; /* ou a altura desejada */
+    }
+</style>
+
+        <!-- /.content -->
+    <div class="conteudo-com-scroll">  
+        <div class="flex justify-center item-center  mt-13 mb-8" style="background-color: #F8FAFC; min-height: 70vh;">
+            <form class="cadastro-form" method='POST' action="{% url 'abrir_chamado' %}" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="p-4 rounded shadow-sm" >
+                    <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 4vh;">
+                        <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class=' h-12 w-12 mr-4'>
+                        <div class="flex flex-col">
+                            <h1 class="text-black" style="font-weight: 800;  font-size: 2vh; margin: 0; ">Abertura de Chamados</h1>
+                            <h1 class="text-black text-center" style="font-weight: 800;  font-size: 1.7vh; margin: 0; ">Abrir SOS</h1>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div><h1 class="text-black" style="font-weight: 700;">Nível:</h1></div>
+                        <div class="flex gap-4 mt-2">
+                            <div class="flex items-center justify-center gap-2" >
+                                <input required id="pouco_urgente" type="radio" value="Pouco Urgente" name="nivel" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 focus:outline-none">
+                                <i class="fa-solid fa-info-circle fa-lg text-green-700"></i>
+                                <label for="pouco_urgente" class="py-4 text-sm font-medium text-black">Pouco Urgente</label>
+                            </div>
+                            <div class="flex items-center justify-center gap-2">
+                                <input required id="urgente" type="radio" value="Urgente" name="nivel" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 focus:outline-none">
+                                <i class="fa-solid fa-exclamation-circle fa-lg text-yellow-600"></i>
+                                <label for="urgente" class="py-4 text-sm font-medium text-black dark:text-gray-300">Urgente</label>
+                            </div>
+                            <div class="flex items-center justify-center gap-2">
+                                <input required id="muito_urgente" type="radio" value="Muito Urgente" name="nivel" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 focus:outline-none">
+                                <i class="fa-solid fa-exclamation-triangle fa-lg text-red-700"></i>
+                                <label for="muito_urgente" class="py-4 text-sm font-medium text-black dark:text-gray-300">Muito Urgente</label>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 mt-8 w-full items-center">
+                            <div class="form-group flex-grow">
+                                <label for="name" class="text-black" style="margin-bottom: 1.2vh; font-weight: 700; font-size: 2vh;">Tipo de Problema:</label>
+                                <select id="P11" name="P11" class="border mt-2 mb-4 border-black text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block h-12 px-4">
+                                    <option value="" disabled selected>Tipo de Problema:</option>
+                                    <option  value="Remanejamento"><i class="fa-solid fa-user fa-sm text-white"></i>Remanejamento</option>
+                                    <option  value="Sites"><i class="fa-solid fa-user fa-sm text-white"></i>Sites</option>
+                                    <option  value="Suporte"><i class="fa-solid fa-user fa-sm text-white"></i>Suporte</option>
+                                    <option  value="Computador"><i class="fa-solid fa-user fa-sm text-white"></i>Computador</option>
+                                    <option  value="Troca de peça"><i class="fa-solid fa-user fa-sm text-white"></i>Troca de Peça</option>
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="P15" class="text-black"  style=" margin-bottom: 1.2vh; font-weight: 700; font-size: 2vh;" >Para Qual Setor?</label>
+                                <select id="P15" name="P15" class="border mt-2 mb-4 border-black text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block h-12 px-4">
+                                    <option value="" disabled selected>Escolha o Setor</option>
+                                    <option  value="Tecnologia da Informação"><i class="fa-solid fa-user fa-sm text-white"></i>Tecnologia da Informação</option>
+                                    <option  value="Recursos Humanos"><i class="fa-solid fa-user fa-sm text-white"></i>Recursos Humanos</option>
+                                    <option  value="Enfermagem"><i class="fa-solid fa-user fa-sm text-white"></i>Enfermagem</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="text-black mb-2" style="margin-bottom: 1.2vh; font-weight: 700; font-size: 2vh;">Detalhe o problema:</label>
+                            <div class="w-full mb-4 border border-black mt-2 rounded-lg bg-gray-50">
+                                <div class="px-4 py-2 bg-white rounded-t-lg">
+                                    <textarea name="P12" id="P12" rows="4" class="w-full mt-2 px-0 text-sm text-gray-900 bg-white focus:outline-none focus:shadow-teal-200/50 focus:ring-teal-500 focus:border-teal-500" placeholder="Digite mais detalhes sobre o problema:" required></textarea>
+                                </div>
+                                <div class="flex items-center justify-between px-3 py-2 border border-black">
+                                    <div class="flex">
+                                        <input type="file" id="file_of" name="file_of" multiple>
+                                        <label for="file_of" class="button" id="upload_of"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-center gap-4 mt-4">
+                            <button type="submit" class="w-24 h-10 cursor-pointer text-white rounded bg-teal-700 hover:bg-teal-500" style="background-color: black; height: 6vh; width: 10vh;">Abrir</button>
+                            <a href="{% url 'base' %}" class="flex justify-center items-center no-underline active:text-white w-24 h-10 border rounded text-black cursor-pointer border-black hover:text-white hover:bg-black" style="text-decoration-line: none;">
+                                Voltar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+{% endblock content %}

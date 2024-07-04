@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Abertura de Chamados</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" type="text/css" href="{% static 'basico.css' %}">
+        <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-...." crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+        <script defer>
+            document.addEventListener('DOMContentLoaded', function () {
+                const avatarButton = document.getElementById('avatarButton');
+                const userDropdown = document.getElementById('userDropdown');
+
+                avatarButton.addEventListener('click', function () {
+                    userDropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', function (event) {
+                    if (!avatarButton.contains(event.target) && !userDropdown.contains(event.target)) {
+                        userDropdown.classList.add('hidden');
+                    }
+                });
+            });
+        </script>
+        
+        {% csrf_token %}
+    </head>
+    <body class="flex flex-col min-h-screen">  
+        
+            <!-- Navigation-->
+            <header class="bg-black w-full h-full">
+                <div class="flex items-center p-4 text-white justify-between ">
+                    <div class="flex items-center justify-center" style="font-size: 2vh">
+                        <h1 style="font-sze: 5vh; font-weight: 500;">Abertura de Chamados</h1>
+                    </div>
+                    <div class="flex">
+                        <nav class="flex-row">
+                            <div class="flex flex-row justify-center items-center gap-4"> 
+                                {% if not request.user.last_name %}
+                                    
+                                {% else %}
+                                    <a href="/" class="block text-white" style="text-decoration: none; font-size: 2vh">
+                                        Home
+                                    </a>  
+                                   
+                                    <a href="/SOS/abrir/chamado/" class="block text-white" style="text-decoration: none; font-size: 2vh">
+                                        Abrir Chamado
+                                    </a>
+                                    <a href="/" class="block hover:text-white" style="text-decoration: none; font-size: 2vh">
+                                        Meus Chamados
+                                    </a>
+
+                                {% endif %}
+                            </div>
+                            
+                        </nav>
+                    </div>
+                    <div class="flex ml-24">
+                            <div>
+                                <img style="height: 6vh; width: 6vh; margin-right: 0.444vh;" id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="{% static 'images/perfil/usuario.png' %}" alt="User dropdown">
+<!-- Dropdown menu -->
+                                    <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-64">
+                                        <div class="px-4 py-3 text-gray-900 text-center">                                        
+                                        <div>{{request.user.first_name}}</div>
+                                        <div class="font-serif truncate">{{request.user.email}}</div>
+                                        </div>
+                                        <ul class="py-2  text-gray-700 " aria-labelledby="avatarButton">
+                                        {% if not request.user.last_name %}
+                                    
+                                        {% else %}
+
+                                        {% for data in data %}
+                                            {% if data.username == user.username %}
+                                                {% if data.setor == 'Tecnologia da Informação' %}
+                                                    <li>
+                                                        <a href="/SOS/listar/usuarios/" class="block px-4 py-2 hover:bg-gray-100 ">Listar Usuarios</a>
+                                                    </li>
+                                                    <li> <a href="/SOS/listar/chamados/" class="block px-4 py-2 hover:bg-gray-100 ">
+                                                        Listar Chamados </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                         {% endfor %}
+                                         {% endif %}
+                                        </ul>
+                                        <div class="py-1">
+                                        <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+                                            <button type="submit" class="flex  w-full items-center  px-4 py-2 leading-none border rounded text-gray-700 border-white hover:bg-gray-100 hover:text-cyan-500 ">
+                                                <i class="fa-solid fa-power-off fa-1x text-cyan-600 hover:text-cyan-400" ></i>
+                                                <a class="block px-4 py-2 ">Logout</a>
+                                            </button>
+                                        </form>
+                                        </div>
+                                    </div>                                   
+                            </div> 
+                    </div>
+                </div>
+            </header>
+            
+            <main class="flex-grow">
+                {% block content %}
+                {% endblock content %}
+            </main>
+
+            <footer class="w-full bg-black" style="height: 10vh;">
+                <div class="w-full h-full flex items-center justify-between text-white">
+                    <div>
+                        <h1 class=" mt-4" style="text-decoration: none; font-size: 1.5vh"  >®️ Abertura de Chamados</h1>
+                    </div>
+                </div>
+            </footer>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    </body>
+</html>

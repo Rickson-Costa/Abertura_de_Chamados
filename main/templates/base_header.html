@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Transparência Enfermagem</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" type="text/css" href="{% static 'basico.css' %}">
+        <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        {% csrf_token %}
+    </head>
+    <body>  
+        <div class="flex justify-center item-center h-screen mt-20 mb-20">
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            <div class="bg-white p-8 rounded shadow-sm" >
+                <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 40px;">
+                    <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class=' h-12 w-12 mr-4'>
+                    <div class="flex flex-col">
+                        <h1 class="text-teal-600" style="font-weight: 400;  font-size: 17px; margin: 0; ">Hospital Napoleão Laureano </h1>
+                        <h1 class="text-teal-500 text-center" style="font-weight: 400;  font-size: 17px; margin: 0; ">Assinaturas</h1>
+                    </div>
+                </div>
+                    <div class="flex items-center gap-4 mt-8">   
+                        <div class=" w-full p-8 bg-white border border-gray-200 rounded-lg shadow">
+                            <script>
+                                $(document).ready(function () {
+                                    var statusFinal = "{{ documento.status_final }}";
+        
+                                    // Função para verificar e atualizar o ícone com base no status_final
+                                    function updateStatusIcon() {
+                                        if (statusFinal === 'Assinado!') {
+                                            $('#status-icon').removeClass().addClass('fa-solid fa-check mb-2 fa-1x text-green-500');
+                                        } else {
+                                            // Adicione outras condições conforme necessário
+                                            $('#status-icon').removeClass().addClass('fa-solid fa-clock mb-2 fa-1x text-cyan-600 hover:text-teal-500');
+                                        }
+                                    }
+        
+                                    // Atualizar o ícone quando a página for carregada
+                                    updateStatusIcon();
+        
+                                    // Verificar e atualizar o ícone sempre que status_final mudar
+                                    setInterval(function () {
+                                        var newStatusFinal = "{{ documento.status_final }}";
+                                        if (newStatusFinal !== statusFinal) {
+                                            statusFinal = newStatusFinal;
+                                            updateStatusIcon();
+                                        }
+                                    }, 1000); // Atualiza a cada 1000 milissegundos (1 segundo), ajuste conforme necessário
+                                });
+                            </script>
+                            <div class="flex justify-center items-center gap-2 mb-8 border-b border-gray-100">
+                                <i class="fa-solid fa-file-signature mb-2 fa-1x text-cyan-600 hover:text-teal-500" ></i>
+                                <h5 class="text-teal-600 text-center mb-2" style="font-size: 20px; font-weight: 500;"><span class="font-bold">Documentos para você Assinar:</span> {{ documento.status_final }}</h5>
+                            </div>
+                            <div class="flex justify-between gap-8">
+                                <div class="flex items-center overflow-x-auto shadow-md sm:rounded-lg mb-20" style="width: 1000px;">
+                                    {% block content %}
+                                    {% endblock %}
+                                </div>
+                                
+                            </div>
+                        </div>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+</html>

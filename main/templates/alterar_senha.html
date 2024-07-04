@@ -1,0 +1,62 @@
+
+{% extends "extends_tailwind.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="600">
+    <title>Login</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+</head>
+<body>
+  <div class="container-fluid h-100 vh-100">
+    <div class="row h-100">
+      <div class="col-md-6 bg-teal-700 d-flex">
+        <div style="display: flex; flex-direction: column; margin-left: 50px;">
+            <div class="d-flex items-center" style="margin-top: 100px;  height: 10px;">
+                <img src="{% static 'images/logo2.png' %}" alt="HospDocs Logo" class=' h-8 w-8 mr-4'>
+                <h1 style="font-weight: 400; font-size:24px; color: white ; margin: 0;">HNL</h1>
+            </div>
+            <div style="margin-top: 300px;">
+                <h1 class="text-white" style="font-size: 30px;">Altere sua Senha!</h1>     
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6  d-flex align-items-center justify-content-center" style="background-color: #F8FAFC;">
+        <form method="POST" action="{% url 'alterar_senha' %}"> {% csrf_token %}
+            <div class="bg-white p-8 rounded shadow-sm">
+                <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 40px;">
+                  <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class=' h-8 w-8 mr-4'>  
+                  <h1 class="text-teal-700" style="font-weight: 400;  font-size: 17px; margin: 0; ">Hospital Napoleão Laureano</h1>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1" class="text-teal-700"  style="margin-bottom: 12px; margin-top: 8px; font-weight: 400; font-size: 15px;">Defina a nova Senha:</label>
+                  <input required type="password" name="password" class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded h-12 px-4 mb-3 leading-tight focus:outline-none  focus:shadow-lg focus:shadow-teal-200/50 focus:ring-teal-700 focus:border-teal-700" id="exampleInputPassword1" placeholder="Digite sua senha">
+                </div>
+                <div>
+                {% if erro_code != None %}
+                <div>
+                    <a class="text-red-500 text-center">
+                        <h1 class="text-red-500 text-center" style="font-size: 20px;">{{erro_code}}</h1>
+                    </a>
+                </div>
+                {% endif %}
+                <div class="flex justify-center items-center mt-8 gap-4">
+                    <button type="submit" href="{% url 'base' %}" value="Entrar" class="w-24 h-10 cursor-pointer text-white rounded bg-teal-700 hover:bg-teal-500">Alterar</button> {% csrf_token %}
+                    
+                </div>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{% endblock content %}

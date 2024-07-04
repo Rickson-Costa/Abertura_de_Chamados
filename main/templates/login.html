@@ -1,0 +1,78 @@
+{% extends "extends_tailwind.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="600">
+    <title>Login</title>
+    <!-- Bootstrap -->
+    <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+    <style>
+        .icon-link {
+            color: white;
+            transition: color 0.3s ease;
+        }
+        .icon-link:hover {
+            color: black;
+        }
+    </style>
+<body>
+  <div class="container-fluid h-90vh vh-100">
+    <div class="row h-100">
+      <div class="col-md-6 d-flex" style="background-color: black;">
+        <div style="display: flex; flex-direction: column; margin-left: 5vh;">
+            <div class="d-flex items-center" style="margin-top: 5vh; ">
+                <h1 style="font-weight: 400; font-size:2.667vh; color: white ; margin: 0;">Abertura de Chamados</h1>
+            </div>
+              <div class='items-center; text-center;' style="margin-top: 10vh;">
+                <h1 class="text-white" style="font-weight: 1000; font-size: 5vh;"> Bem vindo!</h1>                 
+                <a class="text-white" style="font-size: 3vh">Essa é a central de chamados, envie aqui seu SOS!</a>
+                <img src="{% static 'images/doc.png' %}" alt="logo" style="width: 60vh; height: 60vh; margin-top: 10vh;  " class='mr-4 items-center; text-center;'>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6 d-flex align-items-center justify-content-center" style="background-color: #F8FAFC;">
+      <div class="col-md-6 d-flex align-items-center justify-content-center bg-black" style="height: 50vh; width: 50vh;">
+          <form method="POST" action="{% url 'view_login' %}" class="bg-white p-8 rounded shadow-sm border">
+              {% csrf_token %}
+              <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 4.444vh;">
+                  <h1 class="text-black" style="font-weight: 700; font-size: 3vh; margin: 0;">LOGIN</h1>
+              </div>
+              <div class="form-group">
+                  <label for="email" class="text-black" style="margin-bottom: 1.333vh; font-weight: 700; font-size: 1.8vh;">Usuário:</label>
+                  <input style="height: 6vh; width: 40vh;" required type="text" name="username" class="appearance-none block w-full text-sm text-gray-500 border border-gray-200 rounded h-12 px-4 mb-3 leading-tigh focus:shadow-lg focus:shadow-teal-200/50 focus:ring-teal-500 focus:border-teal-500" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Digite seu usuário">
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputPassword1" class="text-black" style="margin-bottom: 1.333vh; margin-top: 0.889vh; font-weight: 700; font-size: 1.8vh;">Senha:</label>
+                  <input style="height: 6vh; width: 40vh;" required type="password" name="password" class="appearance-none block w-full text-sm text-gray-500 border border-gray-200 rounded h-12 px-4 mb-3 leading-tight focus:shadow-lg focus:shadow-teal-200/50 focus:ring-teal-500 focus:border-teal-500" id="exampleInputPassword1" placeholder="Digite sua senha">
+              </div>
+              {% if erro_code != None %}
+              <div>
+                  <h1 class="text-red-500 text-center" style="font-size: 1.5vh;">{{erro_code}}</h1>
+              </div>
+              {% endif %}
+              <div class="flex justify-center items-center mt-8 gap-4" style="font-size: 1.5vh;">
+                  <button type="submit" class="w-24 h-10 cursor-pointer text-white rounded" style="background-color: black; height: 6vh; width: 10vh;">Entrar</button>
+              </div><br>
+              <div class="text-center">
+                  <label class="text-red-500;" style="font-weight: 700; font-size: 2vh">Problemas?</label>
+                  <br>
+                  <label class="text-red-500" style="font-weight: 700; font-size: 2vh">Ligue para o ramal: 0000</label>
+              </div>
+          </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{% endblock content %}

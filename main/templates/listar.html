@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.css' %}">
+{% endblock %}
+
+{% block content %}
+    <style>
+        .conteudo-com-scroll {
+            overflow-y: auto; /* ou 'scroll' para mostrar sempre a barra de rolagem */
+            max-height: 790px; /* ou a altura desejada */
+        }
+    </style>
+
+    <!-- /.content -->
+    <div class="conteudo-com-scroll">  
+        <div class="flex flex-col mt-20 items-center h-full">
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>        
+            <div class="flex justify-center items-center">
+                <div class="flex justify-center items-center gap-4 mt-8" style="w-full;">   
+                    <div class="w-full p-8 bg-white border border-gray-200 rounded-lg shadow">
+                        <div class="flex justify-center items-center gap-2 mb-8 border-b border-gray-100">
+                            <i class="fa-solid fa-user mb-2 fa-1x text-black"></i>
+                            <h5 class="text-black text-center mb-2" style="font-size: 20px; font-weight: 500;"><span class="font-bold">Lista de Usuários:</span></h5><br>
+                        </div>
+                        <div class="flex items-center shadow-md sm:rounded-lg mb-20">
+                            <table class="text-center w-full">
+                                <thead class="text-xs text-white uppercase bg-black">
+                                    <tr>
+                                        <th scope="col" class="p-4">
+                                            Usuário
+                                        </th>
+                                        <th scope="col" class="p-4">
+                                            Email
+                                        </th>
+                                        <th scope="col" class="p-4">
+                                            Último Login
+                                        </th>
+                                        <th scope="col" class="p-4">
+                                            Cargo
+                                        </th>
+                                        <th scope="col" class="p-4">
+                                            Setor
+                                        </th>
+                                        <th scope="col" class="p-4">
+                                            Situação
+                                        </th>
+                                        <th scope="col" class="p-4">
+                                            Conta
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr class="bg-white border-b text-black">
+                                        <td class="w-8 p-4">
+                                            <div>
+                                                <a href="{% url 'editar_usuario' user.pk %}" class="flex hover:text-green-500 focus:outline-none">
+                                                    <i class="fa-solid fa-user fa-1x text-black mr-4"></i>
+                                                    <h1 class="items-center text-center">{{ user.username }}</h1>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="w-8 p-4 text-xs">
+                                            {% for data_item in data %}
+                                                {% if data_item.username == user.username %}
+                                                    {{ data_item.email|default:"-" }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td class="p-4 text-xs" style="width: 200px;">
+                                            {{ user.last_login|default:"-" }}
+                                        </td>
+                                        <td class="w-8 p-4 text-xs">
+                                            {% for data_item in data %}
+                                                {% if data_item.username == user.username %}
+                                                    {{ data_item.cargo|default:"-" }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td class="w-8 p-4 text-xs" style="width: 70px;">
+                                            {% for data_item in data %}
+                                                {% if data_item.username == user.username %}
+                                                    {{ data_item.setor|default:"-" }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td class="p-4 text-xs" style="width: 150px;"> 
+                                            <form action="{% url 'alterar_status' user.username %}" method="post">{% csrf_token %}
+                                                {% if user.is_active %}
+                                                    <span class="badge text-green-600 flex justify-center items-center gap-2" style="font-weight: 600;">
+                                                        <button type="submit" class="badge text-green-600 flex justify-center items-center gap-2" style="font-weight: 800;" title="Alterar Status">
+                                                            <h1>Conta Ativa</h1>
+                                                        </button> 
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge text-red-600 flex justify-center items-center gap-2" style="font-weight: 600;">
+                                                        <button type="submit" class="badge text-red-600 flex justify-center items-center gap-2" style="font-weight: 800;" title="Alterar Status">
+                                                            <h1>Conta Desativada</h1>
+                                                        </button>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </td>
+                                        <td class="w-8 p-4 text-xs"> 
+                                            <form action="{% url 'deletar_usuario' user.pk %}" method="post">{% csrf_token %}
+                                                <span class="badge text-green-600 flex justify-center items-center gap-2" style="font-weight: 600;">
+                                                    <button type="submit" class="badge text-green-600 flex justify-center items-center gap-2" style="font-weight: 800;" title="Apagar Conta">
+                                                        <i class="fas fa-trash mb-2 fa-2x text-red-700 mr-0"></i>
+                                                    </button> 
+                                                </span>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </div>    
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'plugins/toastr/toastr.min.js' %}" type="text/javascript"></script>
+<script>
+    $(document).ready( () => {
+        $('#table').DataTable({
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ itens por página",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "search": "Pesquisar",
+                "infoEmpty": "Nenhum resultado encontrado",
+                "zeroRecords": "Nenhum resultado encontrado",
+                "paginate": {
+                    "first": "Primeira",
+                    "last": "Última",
+                    "next": "Próxima",
+                    "previous": "Anterior"
+                },
+                "infoFiltered": "(filtrado a partir de _MAX_ entrada(s))",
+                "thousands": ".",
+                "loadingRecords": "Carregando...",
+                "emptyTable":     "Não há dados para exibir",
+            },
+            "columnDefs": [
+                {
+                    "targets": [2],
+                    "searchable": false,
+                    "orderable": false
+                }
+            ]
+        });
+    } );
+</script>
+{% if request.session.edit_user %}
+<script>
+    setTimeout(() => {
+        toastr.success('{{ request.session.message }}')
+    }, 1000)
+</script>
+{% endif %}
+{% endblock %}
