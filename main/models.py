@@ -45,7 +45,7 @@ class Chamados(models.Model):
         return self.criado_por   
 
 class Arquivo(models.Model):
-    arquivo = models.FileField(upload_to='timelines/')
+    arquivo = models.FileField()
     descricao = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):

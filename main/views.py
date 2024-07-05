@@ -147,17 +147,17 @@ def abrir_chamado(request):
         if 'file_of' in request.FILES:
             files = request.FILES.getlist('file_of')
             for file in files:
-                caminho_destino = os.path.join(settings.MEDIA_ROOT, f'/{novo_chamado.id}/')
+                caminho_destino = os.path.join(settings.MEDIA_ROOT, str(novo_chamado.id))
                 os.makedirs(caminho_destino, exist_ok=True)
-                with open(f'{caminho_destino}/{file.name}', 'wb+') as destino:
+                with open(os.path.join(caminho_destino, file.name), 'wb+') as destino:
                     for chunk in file.chunks():
                         destino.write(chunk)
-                # Criando uma instância de Arquivo e associando à Timeline
-                novo_arquivo = Arquivo.objects.create(
-                    arquivo=file,
-                    descricao=f"{novo_chamado.id}"
-                )
-                timeline.arquivos.add(novo_arquivo)
+                        # Criando uma instância de Arquivo e associando à Timeline
+                        novo_arquivo = Arquivo.objects.create(
+                            arquivo=file,
+                            descricao=f"{novo_chamado.id}"
+                        )
+                        timeline.arquivos.add(novo_arquivo)
         return  redirect(inicio)
         
     else:
@@ -223,7 +223,7 @@ def ver_chamado(request, chamado_id):
             timeline_id = request.POST.get('arquivos_anexados')
             print(timeline_id)
             arquivos = Arquivo.objects.filter(descricao=timeline_id)
-            return render(request, 'ver_resposta.html', {'arquivos': arquivos, 'data': data, 'users': users})
+            return render(request, 'mensagem.html', {'arquivos': arquivos, 'data': data, 'users': users})
 
     
 

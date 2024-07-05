@@ -9,7 +9,36 @@
     }
 </style>
 
-        <!-- /.content -->
+    {% if arquivos %}
+        <div class="conteudo-com-scroll">  
+            <div class="flex justify-center item-center  mt-13 mb-8" style="background-color: #F8FAFC; min-height: 70vh;">
+                <form class="cadastro-form" method='POST'> {% csrf_token %}
+                    <div class="p-4 rounded shadow-sm" >
+                        <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 4vh;">
+                            <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class=' h-12 w-12 mr-4'>
+                            <div class="flex flex-col">
+                                <h1 class="text-black" style="font-weight: 800;  font-size: 4vh; margin: 0; ">Dados do Chamado</h1>
+                                <h1 class="text-black text-center" style="font-weight: 800;  font-size: 1.7vh; margin: 0; ">Arquivos</h1>
+                            </div>
+                        </div>        
+                        {% for arquivos in arquivos  %}
+                        
+                            <div class="form-group">
+                                <label for="name" class="text-black mb-2" style="margin-bottom: 1.2vh; font-weight: 700; font-size: 2vh;">{{arquivos}}</label>
+                            <div class="flex justify-center gap-4 mt-4">
+                                <a href="{{ arquivos.arquivo.url }}" target="_blank" class="flex justify-center items-center no-underline active:text-white w-24 h-10 border rounded text-black cursor-pointer border-black hover:text-white hover:bg-black" style="height: 4vh; width: 10vh; text-decoration-line: none;">
+                                    Abrir
+                                </a>
+                                <a href="{{ arquivos.arquivo.url }}" download="{{ arquivo.arquivo.name }}" class="flex justify-center items-center no-underline active:text-white w-24 h-10 border rounded text-black cursor-pointer border-black hover:text-white hover:bg-black" style="height: 4vh; width: 10vh; text-decoration-line: none;">
+                                    Baixar
+                                </a>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+    {% else %}
     <div class="conteudo-com-scroll">  
         <div class="flex justify-center item-center  mt-13 mb-8" style="background-color: #F8FAFC; min-height: 70vh;">
             <form class="cadastro-form" method='POST'> {% csrf_token %}
@@ -34,4 +63,5 @@
                 </div>
             </form>
         </div>
+    {% endif %}
 {% endblock content %}
