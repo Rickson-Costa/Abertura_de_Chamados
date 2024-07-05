@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 import logging
-from .models import Dados, Chamados
+from .models import Dados, Chamados, Timeline
 from copy import *
 from functools import wraps
 from django.shortcuts import redirect
@@ -35,7 +35,7 @@ def usuario_de_setor_especifico(setor):
     return decorador
 
 # Create your views here.
-@usuario_de_setor_especifico('Tecnologia da Informação')
+#@usuario_de_setor_especifico('Tecnologia da Informação')
 @login_required(login_url="/SOS/login/")
 def listagem_de_usuarios(request):
         users = User.objects.all()
@@ -133,6 +133,15 @@ def abrir_chamado(request):
             texto = detalhe_do_problema,
         )
         novo_chamado.save()
+        
+        # Registra na Timeline
+        timeline = Timeline(
+            criado_por = request.user,    
+            numero = novo_chamado.id,
+            data_criacao = data,
+            situacao = novo_chamado.situacao,    
+        )
+        timeline.save()
         return  redirect(inicio)
         
     else:
@@ -180,15 +189,159 @@ def error_handler(request, exception=None):
     
     return render(request, 'error.html', {'erro_code': exception, 'data': data}, status=500)
 
-def listar_chamados(request):
+@login_required(login_url="/HNL/login/")
+def ver_chamado(request, chamado_id):
+    users = User.objects.all()
+    data = Dados.objects.all()
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+    timeline = Timeline.objects.filter(numero=chamado_id)
+
+    return render(request, 'dados.html',  {'timeline': timeline, 'chamados':chamado, 'data': data, 'users': users})
+
+def listar_chamados(request, tipo):
     users = User.objects.all()
     data = Dados.objects.all()
 
-    chamados = Chamados.objects.all()
+    # Recupera os chamados filtrados pelo usuário logado e pelo tipo especificado
+    if tipo == 'abertos':
+        chamados = Chamados.objects.filter(criado_por=request.user, situacao='Chamado Aberto')
+    elif tipo == 'todos':
+        chamados = Chamados.objects.filter(criado_por=request.user)
     
-    chamados = chamados.order_by('data_criacao')
+    chamados = chamados.order_by('-data_criacao')
     paginator = Paginator(chamados, 5) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'view_chamados.html', {'chamados': chamados, 'data': data, 'users': users, 'page_obj': page_obj})
+
+def meus_chamados(request, tipo):
+    users = User.objects.all()
+    data = Dados.objects.all()
+
+    if tipo == 'abertos':
+        chamados = Chamados.objects.filter(criado_por=request.user, situacao='Chamado Aberto')
+    elif tipo == 'todos':
+        chamados = Chamados.objects.filter(criado_por=request.user)
+    
+    chamados = chamados.order_by('-data_criacao')
+    paginator = Paginator(chamados, 5) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'meus_chamados.html', {'chamados': chamados, 'data': data, 'users': users, 'page_obj': page_obj})
+def atribuir_chamado(request, chamado_id):
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+    data = f'{dia}/{mês}/{ano} às {hora_atual}'
+
+    chamado.situacao = 'Chamado Atribuido'
+    chamado.save()
+    timeline = Timeline(
+        criado_por = request.user,    
+        numero = chamado_id,
+        data_criacao = data,
+        situacao = f'Chamado atribuido por {request.user}', 
+        codigo = 1,   
+    )
+    timeline.save()
+    
+    return redirect(listar_chamados)
+
+def desatribuir_chamado(request, chamado_id):
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+    data = f'{dia}/{mês}/{ano} às {hora_atual}'
+
+    chamado.situacao = 'Chamado Aberto'
+    chamado.save()
+    timeline = Timeline(
+        criado_por = request.user,    
+        numero = chamado_id,
+        data_criacao = data,
+        situacao = f'Chamado desatribuido por {request.user}', 
+        codigo = 2,   
+    )
+    timeline.save()
+    
+    return redirect(listar_chamados)
+
+def chamado_pendente(request, chamado_id):
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+    data = f'{dia}/{mês}/{ano} às {hora_atual}'
+    if request.method == 'POST':
+        chamado.situacao = 'Chamado Pendente'
+        resposta = request.POST['P12']
+        chamado.save()
+        timeline = Timeline(
+            criado_por = request.user,    
+            numero = chamado_id,
+            data_criacao = data,
+            situacao = f'Chamado atribuido como pendente por {request.user}', 
+            resposta = resposta,
+            codigo = 3,   
+        )
+        timeline.save()
+        
+        return redirect(listar_chamados)
+    else:
+        return render(request, 'mensagem.html')
+
+def chamado_concluido(request, chamado_id):
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+    data = f'{dia}/{mês}/{ano} às {hora_atual}'
+    if request.method == 'POST':
+        resposta = request.POST['P12']
+        chamado.situacao = 'Chamado Concluido'
+        chamado.save()
+        timeline = Timeline(
+            criado_por = request.user,    
+            numero = chamado_id,
+            data_criacao = data,
+            resposta = resposta,
+            situacao = f'Chamado concluido por {request.user}', 
+            codigo = 4,   
+        )
+        timeline.save()
+        return redirect(listar_chamados)
+    else:
+        return render(request, 'mensagem.html')
+def excluir_chamado(request, chamado_id):
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+
+    # Filtra as entradas de Timeline relacionadas ao chamado
+    timeline = Timeline.objects.filter(numero=chamado_id)
+
+    # Exclui todas as entradas da Timeline relacionadas ao chamado
+    timeline.delete()
+
+    # Em seguida, exclui o próprio chamado
+    chamado.delete()
+    
+    # Redireciona para a página de "meus_chamados" após a exclusão
+    return redirect('meus_chamados')
+
+def reabrir_chamado(request, chamado_id):
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+    data = f'{dia}/{mês}/{ano} às {hora_atual}'
+    if request.method == 'POST':
+        resposta = request.POST['P12']
+        chamado.situacao = 'Chamado Aberto'
+        chamado.save()
+        timeline = Timeline(
+            criado_por = request.user,    
+            numero = chamado_id,
+            data_criacao = data,
+            resposta = resposta,
+            situacao = f'Chamado reaberto por {request.user}', 
+            codigo = 5,   
+        )
+        timeline.save()
+        return redirect(listar_chamados)
+    else:
+        return render(request, 'mensagem.html')

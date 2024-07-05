@@ -2,140 +2,83 @@
 {% load static %}
 
 {% block content %}
-    <div class="flex justify-center item-center h-screen mt-20 mb-20">
+<style>
+    .conteudo-com-scroll {
+        overflow-y: auto; /* ou 'scroll' para mostrar sempre a barra de rolagem */
+        max-height: 700px; /* ou a altura desejada */
+    }
+</style>
+<div class="conteudo-com-scroll">  
+    <div class="flex justify-center items-center" style="height: 79vh;">
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <div class="flex gap-8">  
             <div class="bg-white p-8 rounded shadow-sm" >
-                <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 40px;">
-                    <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class=' h-12 w-12 mr-4'>
+                <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 4vh;">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" class=' h-12 w-12 mr-4'>
                     <div class="flex flex-col">
-                        <h1 class="text-teal-700" style="font-weight: 700;  font-size: 17px; margin: 0; ">Hospital Napoleão Laureano </h1>
-                        <h1 class="text-teal-700 text-center" style="font-weight: 700;  font-size: 17px; margin: 0; ">Detalhes do Documento</h1>
+                        <h1 class="text-black" style="font-weight: 700;  font-size: 3vh; margin: 0; ">Abertura de Chamados</h1>
+                        <h1 class="text-black text-center" style="font-weight: 700;  font-size: 2vh; margin: 0; ">Detalhes do Chamado</h1>
                     </div>
                 </div>
-                <div class="flex justify-center items-center gap-4 p-4">
-                    <div class="p-4 bg-teal-500 rounded-full flex items-center justify-center">
-                        <i class="fa-solid fa-file fa-1x text-white" ></i>
-                    </div>
-                    <div class=" flex  flex-col justify-center ">
-                        <time class="block text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ documento.nome }} <br>criado em <span class="text-teal-600">{{ documento.data_criacao }}</span> <br> <span class="text-gray-400">Pelo usuário:</span> <span class="text-cyan-600">{{ documento.criado_por.username }}</span></time>
-                    </div>
-                </div>   
-                    <div class="flex items-center gap-4 mt-8 ">   
+                    <div class="flex  gap-4 mt-8 " style="position: relative; margin-top:30vh;">   
                         <div class=" w-full p-8 bg-white border border-black rounded-lg shadow">
-                            <script>
-                                $(document).ready(function () {
-                                    var statusFinal = "{{ documento.status_final }}";
-    
-                                    // Função para verificar e atualizar o ícone com base no status_final
-                                    function updateStatusIcon() {
-                                        if (statusFinal === 'Assinado!') {
-                                            $('#status-icon').removeClass().addClass('fa-solid fa-check mb-2 fa-1x text-green-500');
-                                        } else {
-                                            // Adicione outras condições conforme necessário
-                                            $('#status-icon').removeClass().addClass('fa-solid fa-clock mb-2 fa-1x text-cyan-600 hover:text-teal-500');
-                                        }
-                                    }
-    
-                                    // Atualizar o ícone quando a página for carregada
-                                    updateStatusIcon();
-    
-                                    // Verificar e atualizar o ícone sempre que status_final mudar
-                                    setInterval(function () {
-                                        var newStatusFinal = "{{ documento.status_final }}";
-                                        if (newStatusFinal !== statusFinal) {
-                                            statusFinal = newStatusFinal;
-                                            updateStatusIcon();
-                                        }
-                                    }, 1000); // Atualiza a cada 1000 milissegundos (1 segundo), ajuste conforme necessário
-                                });
-                            </script>
-                            <div class="flex justify-center items-center gap-2 mb-8 border-b border-gray-100">
-                                <i class="fa-solid fa-clock mb-2 fa-1x text-cyan-600 hover:text-teal-500" ></i>
-                                <h5 class="text-teal-600 text-center mb-2" style="font-size: 20px; font-weight: 500;"><span class="font-bold">Status:</span> {{ documento.status_final }}</h5>
+                            <div class="flex justify-center  flex-col mb-8 border-b border-gray-100">
+                                <h5 class="text-black text-center mb-2" style="font-size: 3vh; font-weight: 500;">
+                                    <i class="fa-solid fa-clock mb-2 fa-1x text-black hover:text-teal-500"></i> <span class="font-bold">Status:</span> {{ chamados.situacao }}
+                                </h5>
+                                <h1 class="text-gray-700 mb-2" style="font-size: 15px; font-weight: 500;">
+                                    <span class="font-bold">Criado em:</span> {{ chamados.data_criacao }}
+                                </h1>
+                                <h1 class="text-gray-700 mb-2" style="font-size: 15px; font-weight: 500;">
+                                    <span class="font-bold">Pelo Usuário:</span> {{ chamados.criado_por.username }}
+                                </h1>
                             </div>
-                            <div class="flex justify-between gap-8">
+                            
                                 <div class="flex flex-col gap-4">
-                                    <h5 class=" text-2xl font-bold tracking-tight text-teal-700 dark:text-white">Assinaturas</h5>
-                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">Usuários solicitados:</h1>
-                                        {% for usuario in documento.permitido_acesso.all %}
-                                            <p class=" text-cyan-600">{{ usuario.username }}</p>
-                                        {% endfor %}
-                                    <p class="font-normal text-gray-600"> 
-                                        Assinado por:
-                                        {% if documento.assinante %}
-                                            <span class="text-teal-600">{{ documento.assinante }}</span>
-                                        {% else %}
-                                        <span class="text-teal-600">Nenhuma assinatura</span>
-                                        {% endif %}
-                                        
-                                    </p>
-                                </div>
-                                <div class="flex flex-col gap-2" >
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-teal-700 dark:text-white">Quantidades</h5>                        
-                                    <p class="font-normal text-gray-600">Solicitadas: <span class="text-teal-600">{{ documento.quantidade_definida_assinaturas }}</span></p>
-                                    <p class="font-normal text-gray-600">Assinaturas: <span class="text-teal-600">{{ documento.numero_assinaturas }}</span></p>
-                                </div>
+                                    <h5 class=" text-2xl font-bold tracking-tight text-black dark:text-white">Tipo de Chamado:</h5>
+                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.assunto}}:</h1>
+                                    <h5 class=" text-2xl font-bold tracking-tight text-black dark:text-white">Problema:</h5>
+                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.texto}}:</h1>
                             </div>
                         </div>
-                </div>
-                
+                </div>   
             </div>
-            <div class="bg-white p-24 rounded shadow-sm">
-                <div  style="display: flex; align-items: center; justify-content: center; padding-bottom: 50px;">
-                    <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class=' h-12 w-12 mr-4'>
+            <div class="bg-white p-24 rounded shadow-sm" style="position: relative; margin-top:30vh;">
+                <div  style="display: flex; align-items: center; justify-content: center; padding-bottom: 5vh;">
                     <div class="flex flex-col">
-                        <h1 class="text-teal-700 text-center" style="font-weight: 700;  font-size: 20px; margin: 0; ">TimeLine</h1>
+                        <h1 class="text-black text-center" style="font-weight: 700;  font-size: 4vh; margin: 0; ">TimeLine</h1>
                     </div>
                 </div>
                 <div className='bg-white rounded-xl shadow-md w-96 ml-20' >
-                    {% for timeline in timelines %}
+                    {% for timeline in timeline %}
                     <ol class=" relative border-s border-gray-200">                  
                         <li class=" ms-6">            
-                            <span class="absolute flex items-center justify-center w-8 h-8 bg-green-100 rounded-full -start-4 ring-2 ring-teal-100">
-                                {% if timeline.codigo == 0%}
-                                    <i class="fa-solid fa-file fa-sm text-green-600"></i>
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-black rounded-full -start-4 ring-2 ring-black">
+                                {% if timeline.codigo == 0 %}
+                                    <i class="fa-solid fa-folder-open fa-sm text-white"></i>
                                 {% elif timeline.codigo == 1 %}
-                                    <i class="fa-solid fa-clock fa-sm text-green-600"></i>
+                                    <i class="fa-solid fa-user-plus fa-sm text-white"></i>
                                 {% elif timeline.codigo == 2 %}
-                                    <i class="fa-solid fa-signature fa-sm text-green-600"></i>
+                                    <i class="fa-solid fa-user-times fa-sm text-white"></i>
                                 {% elif timeline.codigo == 3 %}
-                                    <i class="fa-solid fa-check fa-sm text-green-600"></i>
+                                    <i class="fa-solid fa-hourglass-half fa-sm text-white"></i>
                                 {% elif timeline.codigo == 4 %}
-                                    <i class="fa-solid fa-paper-plane fa-sm text-green-600"></i>
-                                {% elif timeline.codigo == 5 %}
-                                    <i class="fa-solid fa-envelope-open fa-sm text-green-600"></i>
-                                {% elif timeline.codigo == 6 %}
-                                    <i class="fa-solid fa-file-download fa-sm text-green-600"></i>
-                                {% elif timeline.codigo == 7 %}
-                                    <i class="fa-solid fa-file-alt fa-sm text-green-600"></i>
-                                {% elif timeline.codigo == 8 %}
-                                    <i class="fa-solid fa-x fa-sm text-green-600"></i>
-                                {% elif timeline.codigo == 9 %}
-                                    <i class="fa-solid fa-file-alt fa-sm text-green-600"></i>
+                                    <i class="fa-solid fa-check-circle fa-sm text-white"></i>
                                 {% endif %}
                             </span>
-                                <h3 class="flex items-center mb-1 text-[15px] font-semibold text-teal-900 ">{{ timeline.situacao }}</h3>
+                                <h3 class="flex items-center mb-1 text-[3vh] font-semibold text-black ">{{ timeline.situacao }}</h3>
                                 <div class="flex flex-col justify-center mt-2 gap-2">
-                                    {% if timeline.codigo == 9 %}
-                                    <div class="flex">
-                                        <a href="{% url 'visualizar_documento' timeline.modelo timeline.numero %}" class=" flex items-center gap-2 font-medium  rounded hover:text-cyan-400" title="Vizualizar o documento de despacho" >
-                                            <i class="fa-solid fa-file-pdf fa-1x text-cyan-600 hover:text-cyan-400" ></i>
-                                            <h1 class="text-cyan-600 hover:text-cyan-400 text-sm">Visualizar Despacho</h1>
-                                        </a>
-                                  </div>
-                                    {% endif %}
                                     <div class="flex items-center  gap-2">
-                                        <i class="fa-solid fa-clock mb-8 fa-sm text-teal-200" ></i>
-                                        <time class="block mb-8 text-[10px] font-normal leading-none text-gray-400">Feito em {{ timeline.data_criacao }}</time>
+                                        <i class="fa-solid fa-clock mb-8 fa-sm text-black" ></i>
+                                        <time class="block mb-8 text-[2vh] font-normal leading-none text-gray-700">Em: {{ timeline.data_criacao }}</time>
                                     </div>
                                 </div>
-
                         </li>
                     </ol>
                     {% endfor %}
                 </div>
+            </div>
         </div>
-        
     </div>
+</div>
 {% endblock%}

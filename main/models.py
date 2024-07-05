@@ -43,3 +43,14 @@ class Chamados(models.Model):
 
     def __str__(self):
         return self.criado_por   
+
+class Timeline(models.Model):
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE)
+    numero = models.IntegerField(default=0)
+    codigo = models.IntegerField(default=0)
+    data_criacao = models.DateTimeField(auto_now_add=True)
+    situacao = models.CharField(max_length=255, blank=True, null=True)
+    resposta = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.numero   

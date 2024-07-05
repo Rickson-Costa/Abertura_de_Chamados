@@ -11,23 +11,11 @@
         margin-top: 6vh;
       "
     >
-    <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-64">
-      <ul class="py-2  text-gray-700 " aria-labelledby="avatarButton">
-
-      </div>
-      <img style="height: 8vh; width: 8vh; margin-right: 0.444vh;" id="avatarButton" type="button" data-dropdown-toggle="Dropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 cursor-pointer" src="{% static 'images/logo.png' %}" alt="User dropdown">
-      <div id="Dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-64 absolute right-0 mt-2">
-        <div class="px-4 py-3 text-gray-900 text-center">
-          <ul class="py-2 text-gray-700" aria-labelledby="avatarButton">
-            <li>
-              <a href="{% url 'listar_chamados' 'todos' %}" class="block px-4 py-2 hover:bg-gray-100">Todos os chamados</a>
-            </li>
-            <li>
-              <a href="{% url 'listar_chamados' 'abertos' %}" class="block px-4 py-2 hover:bg-gray-100">Chamados abertos</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <img
+        src="{% static 'images/logo.png' %}"
+        alt="HospDocs Logo"
+        class="h-12 w-12 mr-4"
+      />
       <div class="flex flex-col">
         <h1
           class="text-black"
@@ -77,15 +65,14 @@
       <div class="flex flex-col gap-8">
         <div
           class="flex items-center overflow-x-auto shadow-md sm:rounded-lg mb-4"
-          style="w-full;">
+          style="w-full;"
+        >
           {% if chamados %}
           <div class="flex items-center shadow-md sm:rounded-lg">
             <table class="text-center w-full">
               <thead class="text-xs text-white uppercase bg-black">
                 <tr>
                   <th scope="col" class="p-4">ID</th>
-                  <th scope="col" class="p-4">Aberto Por</th>
-                  <th scope="col" class="p-4">Setor Origem</th>
                   <th scope="col" class="p-4">Setor Destino</th>
                   <th scope="col" class="px-6 py-3">Assunto</th>
                   <th scope="col" class="px-6 py-3">Situação</th>
@@ -101,10 +88,6 @@
                   style="font-size: 1.3vh; font-weight: 500"
                 >
                   <td class="p-4 text-xs">{{ chamados.id }}</td>
-                  <td class="p-4 font-bold text-black text-xs">
-                    {{chamados.criado_por}}
-                  </td>
-                  <td class="p-2 text-xs">{{chamados.setor}}</td>
                   <td class="p-2 font-bold text-xs">
                     {{chamados.para_o_setor}}
                   </td>
@@ -127,7 +110,7 @@
                     {{ chamados.nivel }}
                   </td>
                   {% elif chamados.nivel == 'Urgente' %}
-                  <td class="p-2 font-bold text-yellow-700 text-xs">
+                  <td class="p-2 font-bold text-yellow-200 text-xs">
                     {{ chamados.nivel }}
                   </td>
                   {% else %}
@@ -152,53 +135,26 @@
                         ></i>
                       </a>
                       
-                    {% if chamados.situacao == 'Chamado Aberto' %}
+                      {% if chamados.situacao == 'Chamado Aberto' %}
                       <a
-                      href="{% url 'atribuir_chamado' chamados.id %}"
+                      href="{% url 'excluir_chamado' chamados.id %}"
                       class="font-medium rounded"
-                      title="Atribuir Chamado"
+                      title="Excluir Chamado"
                     >
                       <i
-                        class="fas fa-user-plus fa-xl text-black hover:text-red-500"
+                        class="fas fa-trash fa-xl text-black hover:text-red-500"
                       ></i>
-                    </a>
-
-                    {%elif chamados.situacao != 'Chamado Atribuido'%}
-                    {% if chamados.situacao != 'Chamado Concluido' %}
-                    <a
-                    href="{% url 'desatribuir_chamado' chamados.id %}"
-                    class="font-medium rounded"
-                    title="Desatribuir Chamado"
-                  >
-                    <i
-                      class="fas fa-user-times  fa-xl text-black hover:text-red-500"
-                    ></i>
-                  </a>
-                  
-                  {%if chamados.situacao != 'Chamado Pendente'%}
+                  {% endif %}
+                  {% if chamados.situacao == 'Chamado Concluido' %}
                   <a
-                  href="{% url 'chamado_pendente' chamados.id %}"
+                  href="{% url 'reabrir_chamado' chamados.id %}"
                   class="font-medium rounded"
-                  title="Marcar chamado como pendente"
+                  title="Reabrir Chamado"
                 >
                   <i
-                    class="fas fa-hourglass-half fa-xl text-black hover:text-red-500"
+                    class="fas fa-arrow-alt-circle-up fa-xl text-black hover:text-red-500"
                   ></i>
-                </a>
-                {% endif%}
-                {% endif%}
-                {%if chamados.situacao != 'Chamado Concluido'%}
-                <a
-                href="{% url 'chamado_concluido' chamados.id %}"
-                class="font-medium rounded"
-                title="Marcar chamado como concluido"
-              >
-                <i
-                  class="fas fa-check-circle fa-xl text-black hover:text-red-500"
-                ></i>
-              </a>
-              {% endif%}
-                  {% endif %}
+              {% endif %}
                       {% endfor %}
                     </div>
                   </td>
@@ -244,7 +200,7 @@
             >
               <i class="fa-solid fa-x fa-xl text-black hover:text-red-500"></i>
               <h1 class="text-black" style="font-size: 3vh; font-family: Arial">
-                Não existem chamados pendentes!
+                Não existem chamados!
               </h1>
               <i class="fa-solid fa-x fa-xl text-black hover:text-red-500"></i>
               {% endif %}

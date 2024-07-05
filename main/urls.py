@@ -15,9 +15,17 @@ urlpatterns = [
     path('alterar_status/<str:username>/', alterar_status, name='alterar_status'),
     path('deletar_usuario/<int:pk>/', deletar_usuario, name='deletar_usuario'),
     path('erro_na_pagina/<str:exception>/', error_handler, name='error_handler'),
-    path('listar/chamados/', listar_chamados, name='listar_chamados'),
+    path('listar/chamados/<str:tipo>/', listar_chamados, name='listar_chamados'),
+    path('listar/meus/chamados/<str:tipo>/', meus_chamados, name='meus_chamados'),
     path('editar_usuario/<int:pk>/', editar_usuarios, name='editar_usuario'),
     path('abrir/chamado/', abrir_chamado, name='abrir_chamado'),
+    path('abrir/chamado/<int:chamado_id>/', ver_chamado, name='ver_chamado'),
+    path('atribuir/chamado/<int:chamado_id>/', atribuir_chamado, name='atribuir_chamado'),
+    path('desatribuir/chamado/<int:chamado_id>/', desatribuir_chamado, name='desatribuir_chamado'),
+    path('atribuir//chamado/pendente/<int:chamado_id>/', chamado_pendente, name='chamado_pendente'),
+    path('atribuir/chamado/concluido/<int:chamado_id>/', chamado_concluido, name='chamado_concluido'),
+    path('excluir/chamado/<int:chamado_id>/', excluir_chamado, name='excluir_chamado'),
+    path('reabrir/chamado/<int:chamado_id>/', reabrir_chamado, name='reabrir_chamado'),
 
 ]
 

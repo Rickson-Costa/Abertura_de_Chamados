@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .conteudo-com-scroll {
+        overflow-y: auto; /* ou 'scroll' para mostrar sempre a barra de rolagem */
+        max-height: 790px; /* ou a altura desejada */
+    }
+</style>
+
+        <!-- /.content -->
+    <div class="conteudo-com-scroll">  
+        <div class="flex justify-center item-center  mt-13 mb-8" style="background-color: #F8FAFC; min-height: 70vh;">
+            <form class="cadastro-form" method='POST'> {% csrf_token %}
+                <div class="p-4 rounded shadow-sm" >
+                    <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 4vh;">
+                        <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class=' h-12 w-12 mr-4'>
+                        <div class="flex flex-col">
+                            <h1 class="text-black" style="font-weight: 800;  font-size: 2vh; margin: 0; ">Responder Chamado</h1>
+                            <h1 class="text-black text-center" style="font-weight: 800;  font-size: 1.7vh; margin: 0; ">Responder SOS</h1>
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <label for="name" class="text-black mb-2" style="margin-bottom: 1.2vh; font-weight: 700; font-size: 2vh;">Resposta</label>
+                            <textarea name="P12" id="P12" rows="6" class="w-full mt-4 px-1 border border-black text-sm text-black bg-white" placeholder="Digite sua mensagem;" required></textarea>
+                        <div class="flex justify-center gap-4 mt-4">
+                            <button type="submit" class="w-24 h-10 cursor-pointer text-white rounded bg-teal-700 hover:bg-teal-500" style="background-color: black; height: 6vh; width: 10vh;">Responder</button>
+                            <a href="{% url 'base' %}" class="flex justify-center items-center no-underline active:text-white w-24 h-10 border rounded text-black cursor-pointer border-black hover:text-white hover:bg-black" style="text-decoration-line: none;">
+                                Voltar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+{% endblock content %}
