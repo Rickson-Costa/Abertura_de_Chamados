@@ -44,6 +44,13 @@ class Chamados(models.Model):
     def __str__(self):
         return self.criado_por   
 
+class Arquivo(models.Model):
+    arquivo = models.FileField(upload_to='timelines/')
+    descricao = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.arquivo.name
+
 class Timeline(models.Model):
     criado_por = models.ForeignKey(User, on_delete=models.CASCADE)
     numero = models.IntegerField(default=0)
@@ -51,6 +58,7 @@ class Timeline(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     situacao = models.CharField(max_length=255, blank=True, null=True)
     resposta = models.CharField(max_length=255, blank=True, null=True)
+    arquivos = models.ManyToManyField(Arquivo, related_name='timelines', blank=True)
 
     def __str__(self):
-        return self.numero   
+        return str(self.numero)

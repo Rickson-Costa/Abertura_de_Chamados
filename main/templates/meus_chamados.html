@@ -1,6 +1,22 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <div class="flex justify-center item-center mt-13 mb-13">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script>
+    function confirmarAcao() {
+        // Exibe a caixa de confirmação
+        var confirmacao = confirm("Tem certeza que deseja prosseguir?");
+
+        // Se o usuário clicar em "OK", retorna true (confirmado); caso contrário, retorna false
+        if (confirmacao) {
+            // Aqui você pode prosseguir com a ação desejada, por exemplo, enviar um formulário ou redirecionar
+            // Exemplo de redirecionamento
+            window.location.href = "/url-da-sua-acao-aqui";
+        } else {
+            // Ação cancelada pelo usuário
+            console.log("Ação cancelada.");
+        }
+    }
+</script>
   <div class="p-4 rounded shadow-sm">
     <div
       style="
@@ -110,7 +126,7 @@
                     {{ chamados.nivel }}
                   </td>
                   {% elif chamados.nivel == 'Urgente' %}
-                  <td class="p-2 font-bold text-yellow-200 text-xs">
+                  <td class="p-2 font-bold text-yellow-700 text-xs">
                     {{ chamados.nivel }}
                   </td>
                   {% else %}
@@ -136,23 +152,27 @@
                       </a>
                       
                       {% if chamados.situacao == 'Chamado Aberto' %}
-                      <a
-                      href="{% url 'excluir_chamado' chamados.id %}"
-                      class="font-medium rounded"
-                      title="Excluir Chamado"
-                    >
-                      <i
-                        class="fas fa-trash fa-xl text-black hover:text-red-500"
-                      ></i>
+                    <a href="{% url 'excluir_chamado' chamados.id %}" class="font-medium rounded" title="Excluir Chamado"
+                      onclick="return confirm('Tem certeza que deseja EXCLUIR este chamado?');">
+                      <i class="fas fa-trash fa-xl text-black hover:text-red-500"></i>
+                    </a>
                   {% endif %}
                   {% if chamados.situacao == 'Chamado Concluido' %}
                   <a
                   href="{% url 'reabrir_chamado' chamados.id %}"
                   class="font-medium rounded"
                   title="Reabrir Chamado"
-                >
+                  onclick="return confirm('Tem certeza que deseja FINALIZAR este chamado?');">
+                
                   <i
                     class="fas fa-arrow-alt-circle-up fa-xl text-black hover:text-red-500"
+                  ></i>
+                  <a href="{% url 'finalizar_chamado' chamados.id %}"
+                  class="font-medium rounded"
+                  title="Finalizar Chamado"
+                >
+                  <i
+                    class="fas fa-flag-checkered fa-xl text-black hover:text-red-500"
                   ></i>
               {% endif %}
                       {% endfor %}

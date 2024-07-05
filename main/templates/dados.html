@@ -5,22 +5,21 @@
 <style>
     .conteudo-com-scroll {
         overflow-y: auto; /* ou 'scroll' para mostrar sempre a barra de rolagem */
-        max-height: 700px; /* ou a altura desejada */
+        max-height: 500px; /* ou a altura desejada */
     }
 </style>
-<div class="conteudo-com-scroll">  
-    <div class="flex justify-center items-center" style="height: 79vh;">
+    <div class="flex justify-center items-center">
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <div class="flex gap-8">  
             <div class="bg-white p-8 rounded shadow-sm" >
                 <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 4vh;">
-                    <img src="{% static 'images/logo.png' %}" alt="Logo" class=' h-12 w-12 mr-4'>
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" class=' h-8 w-8 mr-4'>
                     <div class="flex flex-col">
                         <h1 class="text-black" style="font-weight: 700;  font-size: 3vh; margin: 0; ">Abertura de Chamados</h1>
                         <h1 class="text-black text-center" style="font-weight: 700;  font-size: 2vh; margin: 0; ">Detalhes do Chamado</h1>
                     </div>
                 </div>
-                    <div class="flex  gap-4 mt-8 " style="position: relative; margin-top:30vh;">   
+                    <div class="flex  gap-4 mt-8 " style="position: relative;">   
                         <div class=" w-full p-8 bg-white border border-black rounded-lg shadow">
                             <div class="flex justify-center  flex-col mb-8 border-b border-gray-100">
                                 <h5 class="text-black text-center mb-2" style="font-size: 3vh; font-weight: 500;">
@@ -36,14 +35,20 @@
                             
                                 <div class="flex flex-col gap-4">
                                     <h5 class=" text-2xl font-bold tracking-tight text-black dark:text-white">Tipo de Chamado:</h5>
-                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.assunto}}:</h1>
+                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.assunto}}</h1>
                                     <h5 class=" text-2xl font-bold tracking-tight text-black dark:text-white">Problema:</h5>
-                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.texto}}:</h1>
+                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.texto}}</h1>
+                                    <a href="javascript:void(0);" onclick="window.history.back();"
+                                    class="flex justify-center items-center no-underline active:text-white w-24 h-10 border rounded text-black cursor-pointer border-black hover:text-white hover:bg-black text-center"
+                                    style="text-decoration-line: none; display: inline-flex; align-items: center; justify-content: center;">
+                                        <span class="inline-block align-middle">Voltar</span>
+                                    </a>                         
                             </div>
                         </div>
                 </div>   
             </div>
-            <div class="bg-white p-24 rounded shadow-sm" style="position: relative; margin-top:30vh;">
+            <div class="conteudo-com-scroll">  
+            <div class="bg-white p-7 rounded shadow-sm" style="position: relative;">
                 <div  style="display: flex; align-items: center; justify-content: center; padding-bottom: 5vh;">
                     <div class="flex flex-col">
                         <h1 class="text-black text-center" style="font-weight: 700;  font-size: 4vh; margin: 0; ">TimeLine</h1>
@@ -64,6 +69,10 @@
                                     <i class="fa-solid fa-hourglass-half fa-sm text-white"></i>
                                 {% elif timeline.codigo == 4 %}
                                     <i class="fa-solid fa-check-circle fa-sm text-white"></i>
+                                {% elif timeline.codigo == 5 %}
+                                    <i class="fa-solid fa-arrow-alt-circle-up fa-sm text-white"></i>
+                                {% elif timeline.codigo == 6 %}
+                                    <i class="fa-solid fa-flag-checkered fa-sm text-white"></i>
                                 {% endif %}
                             </span>
                                 <h3 class="flex items-center mb-1 text-[3vh] font-semibold text-black ">{{ timeline.situacao }}</h3>
@@ -71,7 +80,16 @@
                                     <div class="flex items-center  gap-2">
                                         <i class="fa-solid fa-clock mb-8 fa-sm text-black" ></i>
                                         <time class="block mb-8 text-[2vh] font-normal leading-none text-gray-700">Em: {{ timeline.data_criacao }}</time>
+                                    </div>                                    
+                                    {% if timeline.resposta %}
+                                    <div class="flex items-center" style='position: relative; margin-top: -4.6vh'>
+                                    <form class="cadastro-form" method='POST'> {% csrf_token %}
+                                        <input type="hidden" name="timeline_id" value="{{ timeline.id }}">
+                                        <i class="fa-solid fa-magnifying-glass mb-8 fa-sm text-black" ></i>
+                                        <button><time class="block mb-8 text-[2vh] font-normal leading-none  hover:text-black text-red-700" >Ver Resolução</time> </button>
+                                    </form>
                                     </div>
+                                    {% endif %}
                                 </div>
                         </li>
                     </ol>

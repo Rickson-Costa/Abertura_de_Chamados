@@ -26,6 +26,7 @@ urlpatterns = [
     path('atribuir/chamado/concluido/<int:chamado_id>/', chamado_concluido, name='chamado_concluido'),
     path('excluir/chamado/<int:chamado_id>/', excluir_chamado, name='excluir_chamado'),
     path('reabrir/chamado/<int:chamado_id>/', reabrir_chamado, name='reabrir_chamado'),
+    path('finalizar/chamado/<int:chamado_id>/', finalizar_chamado, name='finalizar_chamado'),
 
 ]
 

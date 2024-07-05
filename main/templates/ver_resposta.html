@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    
+    <div class="flex justify-center items-center">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <div class="flex gap-8">  
+                
+            <div class="bg-white p-8 rounded shadow-sm" >
+                <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 4vh;">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" class=' h-12 w-12 mr-4'>
+                    <div class="flex flex-col">
+                        <h1 class="text-black" style="font-weight: 700;  font-size: 3vh; margin: 0; ">Acompanhando o Chamados</h1>
+                        <h1 class="text-black text-center" style="font-weight: 700;  font-size: 2vh; margin: 0; ">Detalhes do Chamado</h1>
+                    </div>
+                </div>
+                    <div class="flex  gap-4 mt-8 " style="position: relative;">   
+                        <div class=" w-full p-8 bg-white border border-black rounded-lg shadow">
+                            <div class="flex justify-center  flex-col mb-8 border-b border-gray-100">
+                                <h5 class="text-black text-center mb-2" style="font-size: 3vh; font-weight: 500;">
+                                    <i class="fa-solid fa-clock mb-2 fa-1x text-black hover:text-teal-500"></i> <span class="font-bold">Status:</span> {{ chamados.situacao }}
+                                </h5>
+                                <h1 class="text-gray-700 mb-2" style="font-size: 15px; font-weight: 500;">
+                                    <span class="font-bold">Criado em:</span> {{ chamados.data_criacao }}
+                                </h1>
+                                <h1 class="text-gray-700 mb-2" style="font-size: 15px; font-weight: 500;">
+                                    <span class="font-bold">Pelo Usuário:</span> {{ chamados.criado_por.username }}
+                                </h1>
+                            </div>
+                            
+                                <div class="flex flex-col gap-4">
+                                    <h5 class=" text-2xl font-bold tracking-tight text-black dark:text-white">Tipo de Chamado:</h5>
+                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.assunto}}</h1>
+                                    <h5 class=" text-2xl font-bold tracking-tight text-black dark:text-white">Problema:</h5>
+                                    <h1 class="text-gray-700" style="font-size: 15px; font-weight: 500;">{{chamados.texto}}</h1>
+                            </div>
+                        </div>
+                </div>   
+                </div>
+                    <div class="flex  gap-4 mt-8 " style="position: relative;">   
+                        <div class=" w-full p-8 bg-white border border-black rounded-lg shadow">
+                            <div class="flex justify-center  flex-col mb-8 border-b border-gray-100">
+                                <h5 class="text-black text-center mb-2" style="font-size: 3vh; font-weight: 500;">
+                                    <i class="fa-solid fa-clock mb-2 fa-1x text-black hover:text-teal-500"></i> <span class="font-bold">Resposta</span>
+                                <h1 class="text-gray-700 mb-2" style="font-size: 15px; font-weight: 500;">
+                                    <span class="font-bold">Criada em:</span> {{ timeline.data_criacao }}
+                                </h1>
+                                <h1 class="text-gray-700 mb-2" style="font-size: 15px; font-weight: 500;">
+                                    <span class="font-bold">Pelo Usuário:</span> {{ timeline.criado_por.username }}
+                                </h1>
+                                <h1 class="text-gray-700 mb-2" style="font-size: 15px; font-weight: 500;">
+                                    <span class="font-bold">Comentario:</span> {{ timeline.resposta }}
+                                </h1>
+                            </div>
+            </div>
+{% endblock%}

@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-import logging
-from .models import Dados, Chamados, Timeline
+import logging, os
+from .models import Dados, Chamados, Timeline, Arquivo
 from copy import *
 from functools import wraps
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
 from datetime import datetime
 import locale
-
+from django.conf import settings
 logger = logging.getLogger(__name__)
 
 locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
@@ -34,8 +34,9 @@ def usuario_de_setor_especifico(setor):
         return visualizacao_envolvida
     return decorador
 
+
 # Create your views here.
-#@usuario_de_setor_especifico('Tecnologia da Informação')
+@usuario_de_setor_especifico('Tecnologia da Informação')
 @login_required(login_url="/SOS/login/")
 def listagem_de_usuarios(request):
         users = User.objects.all()
@@ -142,6 +143,21 @@ def abrir_chamado(request):
             situacao = novo_chamado.situacao,    
         )
         timeline.save()
+        # Salvando os arquivos enviados e registrando na Timeline
+        if 'file_of' in request.FILES:
+            files = request.FILES.getlist('file_of')
+            for file in files:
+                caminho_destino = os.path.join(settings.MEDIA_ROOT, f'/{novo_chamado.id}/')
+                os.makedirs(caminho_destino, exist_ok=True)
+                with open(f'{caminho_destino}/{file.name}', 'wb+') as destino:
+                    for chunk in file.chunks():
+                        destino.write(chunk)
+                # Criando uma instância de Arquivo e associando à Timeline
+                novo_arquivo = Arquivo.objects.create(
+                    arquivo=file,
+                    descricao=f"Arquivo enviado para o chamado {novo_chamado.id}"
+                )
+                timeline.arquivos.add(novo_arquivo)
         return  redirect(inicio)
         
     else:
@@ -196,6 +212,12 @@ def ver_chamado(request, chamado_id):
     # Recupera o objeto Chamados com base no chamado_id
     chamado = get_object_or_404(Chamados, pk=chamado_id)
     timeline = Timeline.objects.filter(numero=chamado_id)
+    timeline = timeline.order_by('-data_criacao')
+    if request.method == 'POST':
+        timeline_id = request.POST.get('timeline_id')
+        timeline = get_object_or_404(Timeline, pk=timeline_id)
+        return render (request, 'ver_resposta.html', {'timeline': timeline, 'chamados':chamado, 'data': data, 'users': users})
+    
 
     return render(request, 'dados.html',  {'timeline': timeline, 'chamados':chamado, 'data': data, 'users': users})
 
@@ -247,7 +269,7 @@ def atribuir_chamado(request, chamado_id):
     )
     timeline.save()
     
-    return redirect(listar_chamados)
+    return redirect('listar_chamados', 'todos')
 
 def desatribuir_chamado(request, chamado_id):
     # Recupera o objeto Chamados com base no chamado_id
@@ -265,7 +287,7 @@ def desatribuir_chamado(request, chamado_id):
     )
     timeline.save()
     
-    return redirect(listar_chamados)
+    return redirect('listar_chamados', 'todos')
 
 def chamado_pendente(request, chamado_id):
     # Recupera o objeto Chamados com base no chamado_id
@@ -285,7 +307,7 @@ def chamado_pendente(request, chamado_id):
         )
         timeline.save()
         
-        return redirect(listar_chamados)
+        return redirect('listar_chamados', 'todos')
     else:
         return render(request, 'mensagem.html')
 
@@ -306,7 +328,7 @@ def chamado_concluido(request, chamado_id):
             codigo = 4,   
         )
         timeline.save()
-        return redirect(listar_chamados)
+        return redirect('listar_chamados', 'todos')
     else:
         return render(request, 'mensagem.html')
 def excluir_chamado(request, chamado_id):
@@ -323,7 +345,7 @@ def excluir_chamado(request, chamado_id):
     chamado.delete()
     
     # Redireciona para a página de "meus_chamados" após a exclusão
-    return redirect('meus_chamados')
+    return redirect('meus_chamados', 'todos')
 
 def reabrir_chamado(request, chamado_id):
     # Recupera o objeto Chamados com base no chamado_id
@@ -342,6 +364,22 @@ def reabrir_chamado(request, chamado_id):
             codigo = 5,   
         )
         timeline.save()
-        return redirect(listar_chamados)
+        return redirect('meus_chamados', 'todos')
     else:
         return render(request, 'mensagem.html')
+    
+def finalizar_chamado(request, chamado_id):
+    # Recupera o objeto Chamados com base no chamado_id
+    chamado = get_object_or_404(Chamados, pk=chamado_id)
+    data = f'{dia}/{mês}/{ano} às {hora_atual}'
+    chamado.situacao = 'Chamado Finalizado'
+    chamado.save()
+    timeline = Timeline(
+        criado_por = request.user,    
+        numero = chamado_id,
+        data_criacao = data,
+        situacao = f'Chamado finalizado por {request.user}', 
+        codigo = 6,   
+    )
+    timeline.save()
+    return redirect('meus_chamados', 'todos')
