@@ -80,7 +80,16 @@
                                     <div class="flex items-center  gap-2">
                                         <i class="fa-solid fa-clock mb-8 fa-sm text-black" ></i>
                                         <time class="block mb-8 text-[2vh] font-normal leading-none text-gray-700">Em: {{ timeline.data_criacao }}</time>
-                                    </div>                                    
+                                    </div>               
+                                    {% if timeline.arquivos %}
+                                    <div class="flex items-center" style='position: relative; margin-top: -4.6vh'>
+                                    <form class="cadastro-form" method='POST'> {% csrf_token %}
+                                        <input type="hidden" name="arquivos_anexados" value="{{ timeline.id  }}">
+                                        <i class="fa-solid fa-magnifying-glass mb-8 fa-sm text-black" ></i>
+                                        <button><time class="block mb-8 text-[2vh] font-normal leading-none hover:text-black text-green-700" >Ver Arquivos Anexados</time> </button>
+                                    </form>
+                                    </div>
+                                    {% endif %}                     
                                     {% if timeline.resposta %}
                                     <div class="flex items-center" style='position: relative; margin-top: -4.6vh'>
                                     <form class="cadastro-form" method='POST'> {% csrf_token %}

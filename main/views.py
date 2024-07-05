@@ -155,7 +155,7 @@ def abrir_chamado(request):
                 # Criando uma instância de Arquivo e associando à Timeline
                 novo_arquivo = Arquivo.objects.create(
                     arquivo=file,
-                    descricao=f"Arquivo enviado para o chamado {novo_chamado.id}"
+                    descricao=f"{novo_chamado.id}"
                 )
                 timeline.arquivos.add(novo_arquivo)
         return  redirect(inicio)
@@ -214,9 +214,17 @@ def ver_chamado(request, chamado_id):
     timeline = Timeline.objects.filter(numero=chamado_id)
     timeline = timeline.order_by('-data_criacao')
     if request.method == 'POST':
-        timeline_id = request.POST.get('timeline_id')
-        timeline = get_object_or_404(Timeline, pk=timeline_id)
-        return render (request, 'ver_resposta.html', {'timeline': timeline, 'chamados':chamado, 'data': data, 'users': users})
+        if request.POST.get('timeline_id'):
+            timeline_id = request.POST.get('timeline_id')
+            timeline = get_object_or_404(Timeline, pk=timeline_id)
+            return render (request, 'ver_resposta.html', {'timeline': timeline, 'chamados':chamado, 'data': data, 'users': users})
+        
+        if request.POST.get('arquivos_anexados'):
+            timeline_id = request.POST.get('arquivos_anexados')
+            print(timeline_id)
+            arquivos = Arquivo.objects.filter(descricao=timeline_id)
+            return render(request, 'ver_resposta.html', {'arquivos': arquivos, 'data': data, 'users': users})
+
     
 
     return render(request, 'dados.html',  {'timeline': timeline, 'chamados':chamado, 'data': data, 'users': users})
