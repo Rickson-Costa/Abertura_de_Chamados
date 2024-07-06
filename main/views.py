@@ -36,7 +36,7 @@ def usuario_de_setor_especifico(setor):
 
 
 # Create your views here.
-@usuario_de_setor_especifico('Tecnologia da Informação')
+#@usuario_de_setor_especifico('Tecnologia da Informação')
 @login_required(login_url="/SOS/login/")
 def listagem_de_usuarios(request):
         users = User.objects.all()
