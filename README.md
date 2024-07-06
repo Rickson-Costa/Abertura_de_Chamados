@@ -11,4 +11,4 @@ Listagem de Chamados
 ![Captura de tela 2024-07-06 133344](https://github.com/Rickson-Costa/Abertura_de_Chamados/assets/149190460/d5fc37b5-d7f1-4f05-b944-f2f250133898)
 
 Vizualizar Chamado:
-![Captura de tela 2024-07-06 133526](https://github.com/Rickson-Costa/Abertura_de_Chamados/assets/149190460/71d34786-7819-47e5-9f99-aa3c2e21dc3a)
+![Captura de tela 2024-07-06 134121](https://github.com/Rickson-Costa/Abertura_de_Chamados/assets/149190460/91b0247c-3bfc-420d-8a47-6ac5310cde1a)
