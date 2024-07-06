@@ -79,7 +79,7 @@ def view_login(request):
             
         except:
             return render(request, 'login.html', {'erro_code': "Erro!"})
-        
+@login_required(login_url="/SOS/login/")        
 def editar_usuarios(request , pk):
     usuario = get_object_or_404(User, pk=pk)
 
@@ -109,7 +109,7 @@ def editar_usuarios(request , pk):
     return render(request, 'editar_usuarios.html', {
         'usuario': usuario,
     })
-
+@login_required(login_url="/SOS/login/")
 def abrir_chamado(request):
     users = User.objects.all()
     dados = Dados.objects.all()
@@ -147,9 +147,9 @@ def abrir_chamado(request):
         if 'file_of' in request.FILES:
             files = request.FILES.getlist('file_of')
             for file in files:
-                caminho_destino = os.path.join(settings.MEDIA_ROOT, str(novo_chamado.id))
-                os.makedirs(caminho_destino, exist_ok=True)
-                with open(os.path.join(caminho_destino, file.name), 'wb+') as destino:
+                caminho_destino = os.path.join(settings.MEDIA_ROOT)
+                os.makedirs(f'{caminho_destino}/{str(novo_chamado.id)}', exist_ok=True)
+                with open(os.path.join(f'{caminho_destino}/{str(novo_chamado.id)}', file.name), 'wb+') as destino:
                     for chunk in file.chunks():
                         destino.write(chunk)
                         # Criando uma instância de Arquivo e associando à Timeline
@@ -182,8 +182,24 @@ def deletar_usuario(request, pk):
 def inicio(request):
     users = User.objects.all()
     data = Dados.objects.all()
+    usuario_logador = Dados.objects.get(username=request.user.username)
+    
+    chamados = Chamados.objects.all()
+    chamados_setor_destino = Chamados.objects.filter(para_o_setor = usuario_logador.setor)
+    l_chamados_abertos = Chamados.objects.filter(para_o_setor = usuario_logador.setor, situacao='Chamado Aberto')
+    l_chamados_concluidos = Chamados.objects.filter(para_o_setor = usuario_logador.setor, situacao='Chamado Concluido')
+    l_chamados_finalizados = Chamados.objects.filter(para_o_setor = usuario_logador.setor, situacao='Chamado Finalizado')
+    chamados_setor_origem = Chamados.objects.filter(setor = usuario_logador.setor)
 
-    return render(request, 'home.html', {'data': data, 'users': users})
+    chamados_abertos = len(l_chamados_abertos)
+    todos_os_chamados = len(chamados)
+    chamados_por_setor = len(chamados_setor_destino)
+    chamados_origem = len(chamados_setor_origem)
+    chamados_concluido = len(l_chamados_concluidos)
+    chamados_finalizados = len(l_chamados_finalizados)
+    
+
+    return render(request, 'home.html', {'data' : data, 'users' : users,'chamados_concluidos': chamados_concluido, 'chamados_finalizados' : chamados_finalizados, 'chamados_abertos': chamados_abertos, 'todos_os_chamados' : todos_os_chamados, 'chamados_por_setor' : chamados_por_setor, 'chamados_origem' : chamados_origem})
 
 def alterar_status(request, username):
         usuario = User.objects.get(username = username)
@@ -228,16 +244,17 @@ def ver_chamado(request, chamado_id):
     
 
     return render(request, 'dados.html',  {'timeline': timeline, 'chamados':chamado, 'data': data, 'users': users})
-
+@login_required(login_url="/SOS/login/")
 def listar_chamados(request, tipo):
     users = User.objects.all()
     data = Dados.objects.all()
+    usuario = Dados.objects.get(username=request.user.username)
 
     # Recupera os chamados filtrados pelo usuário logado e pelo tipo especificado
     if tipo == 'abertos':
-        chamados = Chamados.objects.filter(criado_por=request.user, situacao='Chamado Aberto')
+        chamados = Chamados.objects.filter(para_o_setor=usuario.setor, situacao='Chamado Aberto')
     elif tipo == 'todos':
-        chamados = Chamados.objects.filter(criado_por=request.user)
+        chamados = Chamados.objects.filter(para_o_setor=usuario.setor)
     
     chamados = chamados.order_by('-data_criacao')
     paginator = Paginator(chamados, 5) 
@@ -245,7 +262,7 @@ def listar_chamados(request, tipo):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'view_chamados.html', {'chamados': chamados, 'data': data, 'users': users, 'page_obj': page_obj})
-
+@login_required(login_url="/SOS/login/")
 def meus_chamados(request, tipo):
     users = User.objects.all()
     data = Dados.objects.all()
@@ -261,6 +278,7 @@ def meus_chamados(request, tipo):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'meus_chamados.html', {'chamados': chamados, 'data': data, 'users': users, 'page_obj': page_obj})
+
 def atribuir_chamado(request, chamado_id):
     # Recupera o objeto Chamados com base no chamado_id
     chamado = get_object_or_404(Chamados, pk=chamado_id)
