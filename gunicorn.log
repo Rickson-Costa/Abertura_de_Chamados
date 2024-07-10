@@ -1,0 +1,7 @@
+nohup: ignoring input
+[2024-07-10 20:59:48 +0000] [28336] [INFO] Starting gunicorn 21.2.0
+[2024-07-10 20:59:48 +0000] [28336] [INFO] Listening at: http://0.0.0.0:8000 (28336)
+[2024-07-10 20:59:48 +0000] [28336] [INFO] Using worker: sync
+[2024-07-10 20:59:48 +0000] [28339] [INFO] Booting worker with pid: 28339
+[2024-07-10 21:00:12 +0000] [28336] [INFO] Handling signal: term
+[2024-07-10 21:00:42 +0000] [28336] [INFO] Shutting down: Master
