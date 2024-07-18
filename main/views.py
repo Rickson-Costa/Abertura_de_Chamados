@@ -261,8 +261,8 @@ def meus_chamados(request, tipo):
     users = User.objects.all()
     data = Dados.objects.all()
 
-    if tipo == 'abertos':
-        chamados = Chamados.objects.filter(criado_por=request.user, situacao='Chamado Aberto')
+    if tipo == 'atribuidos':
+        chamados = Chamados.objects.filter(criado_por=request.user, situacao='Chamado Atribuido')
     elif tipo == 'todos':
         chamados = Chamados.objects.filter(criado_por=request.user)
     

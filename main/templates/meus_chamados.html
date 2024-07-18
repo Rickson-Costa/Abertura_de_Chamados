@@ -54,10 +54,10 @@
         <div class="px-4 py-3 text-gray-900 text-center">
           <ul class="py-2 text-gray-700" aria-labelledby="avatarButton">
             <li>
-              <a href="{% url 'listar_chamados' 'todos' %}" class="block px-4 py-2 hover:bg-gray-100">Todos os chamados</a>
+              <a href="{% url 'meus_chamados' 'todos' %}" class="block px-4 py-2 hover:bg-gray-100">Todos os chamados</a>
             </li>
             <li>
-              <a href="{% url 'listar_chamados' 'abertos' %}" class="block px-4 py-2 hover:bg-gray-100">Chamados abertos</a>
+              <a href="{% url 'meus_chamados' 'atribuidos' %}" class="block px-4 py-2 hover:bg-gray-100">Chamados atribuidos</a>
             </li>
           </ul>
         </div>
