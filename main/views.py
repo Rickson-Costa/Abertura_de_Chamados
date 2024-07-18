@@ -9,17 +9,23 @@ from functools import wraps
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
 from datetime import datetime
-import locale
 from django.conf import settings
 logger = logging.getLogger(__name__)
 
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+import pytz
+from datetime import datetime
 
-dia = str(datetime.now().day)
-mês = datetime.now()
-mês = mês.strftime('%B') 
-ano = str(datetime.now().year)
-hora_atual = datetime.now().strftime('%H:%M:%S')
+# Defina o fuso horário para 'America/Sao_Paulo'
+timezone = pytz.timezone('America/Sao_Paulo')
+
+# Obtenha a hora atual no fuso horário local
+hora_atual = datetime.now(timezone)
+
+# Obter o dia, mês e ano
+dia = str(hora_atual.day)
+mes = hora_atual.strftime('%B')
+ano = str(hora_atual.year)
+hora_atual_formatada = hora_atual.strftime('%H:%M:%S')
 
 def usuario_de_setor_especifico(setor):
     def decorador(view_func):
