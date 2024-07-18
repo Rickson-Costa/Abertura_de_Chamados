@@ -20,9 +20,10 @@
     }
 
     .container {
-        position: fixed; /* Posição fixa na tela */
-        top: 240px; /* Distância do topo */
-        left: 1420px; /* Distância da direita */
+        position: absolute; /* Posição relativa ao contêiner pai */
+        top: 50%; /* Centraliza verticalmente */
+        right: 20px; /* Distância da direita */
+        transform: translateY(-50%); /* Ajusta para a centralização exata */
     }
 
     /* Estilos adicionais para o cabeçalho e outros elementos */
