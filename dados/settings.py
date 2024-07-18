@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t3bbrjlq63yd+yp_icg+afj6(p#ry_vcu_9f=z+k^cd%r2f!pr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -70,7 +70,7 @@ MIDDLEWARE = [
 ]
 
 # Definir duração de sessões em segundos!
-SESSION_COOKIE_AGE = 18000
+SESSION_COOKIE_AGE = 9000
 
 # Definir se a sesssão deve expirar quando o navegador for fechado
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -127,7 +127,7 @@ WSGI_APPLICATION = 'dados.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/home/administrador/sos/db.sqlite3',
+        'NAME': '/home/administrador/Abertura_de_Chamados/db.sqlite3',
     }
 }
 
