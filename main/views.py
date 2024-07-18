@@ -158,7 +158,7 @@ def abrir_chamado(request):
                             descricao=f"{novo_chamado.id}"
                         )
                         timeline.arquivos.add(novo_arquivo)
-        return  redirect(inicio)
+        return  redirect(meus_chamados)
         
     else:
         return render(request, 'abrir_chamado.html', {'data': dados, 'users': users})

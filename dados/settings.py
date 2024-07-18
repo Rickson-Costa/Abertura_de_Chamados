@@ -70,7 +70,7 @@ MIDDLEWARE = [
 ]
 
 # Definir duração de sessões em segundos!
-SESSION_COOKIE_AGE = 300
+SESSION_COOKIE_AGE = 18000
 
 # Definir se a sesssão deve expirar quando o navegador for fechado
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
