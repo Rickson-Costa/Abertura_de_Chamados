@@ -12,16 +12,16 @@
         height: 80px;
         background-color: black;
         text-align: center;
-        line-height: 20px;
-        font-size: 16px; /* Ajuste conforme necessário */
+        line-height: 2.8vh;
+        font-size: 2vh; /* Ajuste conforme necessário */
         color: white;
-        margin-bottom: 10px; /* Espaço entre os quadrados */
-        border-radius: 10px; /* Arredonda as bordas */
+        margin-bottom: 1.8vh; /* Espaço entre os quadrados */
+        border-radius: 1.8vh; /* Arredonda as bordas */
     }
 
     .container {
         position: fixed; /* Posição fixa na tela */
-        top: 100px; /* Distância do topo */
+        top: 30vh; /* Distância do topo */
         left: 200vh; /* Distância da direita */
     }
 
@@ -29,14 +29,14 @@
     .header {
         text-align: center;
         font-weight: 800;
-        font-size: 2.5em; /* Ajuste conforme necessário */
-        margin-bottom: 10px;
+        font-size: 6vh; /* Ajuste conforme necessário */
+        margin-bottom: 1.8vh;
     }
 
     .welcome-text {
         text-align: center;
-        font-size: 1.8em; /* Ajuste conforme necessário */
-        margin-bottom: 20px;
+        font-size: 3vh; /* Ajuste conforme necessário */
+        margin-bottom: 5vh;
     }
 </style>
 </head>
@@ -53,16 +53,16 @@
             </div>
             <div class="container">
                 <div class="square">
-                    <h2 style="font-size: 10px; margin-bottom: 5px;">Todos <br> os Chamados</h2>
+                    <h2 style="font-size: 1.6vh; margin-bottom: 0.5vh;">Todos <br> os chamados</h2>
                     <span>{{ todos_os_chamados }}</span>
                 </div>
                 <div class="square">
-                    <h2 style="font-size: 10px; margin-bottom: 5px;">Chamados Abertos</h2>
+                    <h2 style="font-size: 1.6vh; margin-bottom: 0.5vh;">Chamados Abertos</h2>
                     <span>{{ chamados_abertos }}</span>
                 </div>
                 <div class="square">
-                    <h2 style="font-size: 10px; margin-bottom: 5px;">Chamados Finalizados</h2>
-                    <span>{{ chamados_concluidos }}</span>
+                    <h2 style="font-size: 1.6vh; margin-bottom: 0.5vh;">Chamados Finalizados</h2>
+                    <span>{{ chamados_finalizados }}</span>
                 </div>
             </div>
         </div>

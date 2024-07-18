@@ -1,234 +1,141 @@
-{% extends "base.html" %} {% load static %} {% block content %}
-<div class="flex justify-center item-center mt-13 mb-13">
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="flex justify-center items-center mt-13 mb-13">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
-    function confirmarAcao() {
-        // Exibe a caixa de confirmação
+    function confirmarAcao(url) {
         var confirmacao = confirm("Tem certeza que deseja prosseguir?");
-
-        // Se o usuário clicar em "OK", retorna true (confirmado); caso contrário, retorna false
         if (confirmacao) {
-            // Aqui você pode prosseguir com a ação desejada, por exemplo, enviar um formulário ou redirecionar
-            // Exemplo de redirecionamento
-            window.location.href = "/url-da-sua-acao-aqui";
+            window.location.href = url;
         } else {
-            // Ação cancelada pelo usuário
             console.log("Ação cancelada.");
         }
     }
-</script>
-  <div class="p-4 rounded shadow-sm">
-    <div
-      style="
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 3vh;
-        margin-top: 6vh;
-      "
-    >
-      <img
-        src="{% static 'images/logo.png' %}"
-        alt="HospDocs Logo"
-        class="h-12 w-12 mr-4"
-      />
-      <div class="flex flex-col">
-        <h1
-          class="text-black"
-          style="font-weight: 800; font-size: 4vh; margin: 0"
-        >
-          SOS Chamados
-        </h1>
-      </div>
-    </div>
-    <div class="flex items-center gap-4 mt-4">
-      <div class="p-4">
-        <script>
-          $(document).ready(function () {
-            var statusFinal = "{{ documento.status_final }}";
 
-            // Função para verificar e atualizar o ícone com base no status_final
-            function updateStatusIcon() {
-              if (statusFinal === "Assinado!") {
-                $("#status-icon")
-                  .removeClass()
-                  .addClass("fa-solid fa-check mb-2 fa-1x text-green-500");
-              } else {
-                // Adicione outras condições conforme necessário
-                $("#status-icon")
-                  .removeClass()
-                  .addClass(
-                    "fa-solid fa-clock mb-2 fa-1x text-cyan-600 hover:text-teal-500"
-                  );
-              }
-            }
+    $(document).ready(function () {
+        var statusFinal = "{{ documento.status_final }}";
 
-            // Atualizar o ícone quando a página for carregada
-            updateStatusIcon();
+        function updateStatusIcon() {
+            var iconClass = statusFinal === "Assinado!"
+                ? "fa-solid fa-check mb-2 fa-1x text-green-500"
+                : "fa-solid fa-clock mb-2 fa-1x text-cyan-600 hover:text-teal-500";
+            $("#status-icon").attr("class", iconClass);
+        }
 
-            // Verificar e atualizar o ícone sempre que status_final mudar
-            setInterval(function () {
-              var newStatusFinal = "{{ documento.status_final }}";
-              if (newStatusFinal !== statusFinal) {
+        updateStatusIcon();
+
+        setInterval(function () {
+            var newStatusFinal = "{{ documento.status_final }}";
+            if (newStatusFinal !== statusFinal) {
                 statusFinal = newStatusFinal;
                 updateStatusIcon();
-              }
-            }, 1000); // Atualiza a cada 1000 milissegundos (1 segundo), ajuste conforme necessário
-          });
-        </script>
+            }
+        }, 10000); // Atualiza a cada 10 segundos
+    });
+  </script>
+  
+  <div class="p-4 rounded shadow-sm">
+    <div class="flex items-center justify-center  mt-12">
+      <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class="h-12 w-12 mr-4" />
+      <div class="flex flex-col">
+        <h1 class="text-black font-extrabold text-4xl m-0">SOS Chamados</h1>
       </div>
+    </div><br>
 
-      <div class="flex flex-col gap-8">
-        <div
-          class="flex items-center overflow-x-auto shadow-md sm:rounded-lg mb-4"
-          style="w-full;"
-        >
-          {% if chamados %}
-          <div class="flex items-center shadow-md sm:rounded-lg">
-            <table class="text-center w-full">
-              <thead class="text-xs text-white uppercase bg-black">
-                <tr>
-                  <th scope="col" class="p-4">ID</th>
-                  <th scope="col" class="p-4">Setor Destino</th>
-                  <th scope="col" class="px-6 py-3">Assunto</th>
-                  <th scope="col" class="px-6 py-3">Situação</th>
-                  <th scope="col" class="px-6 py-3">Nivel</th>
-                  <th scope="col" class="px-6 py-3">Data de Criação</th>
-                  <th scope="col" class="px-6 py-3">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for chamados in page_obj %}
-                <tr
-                  class="bg-white border-b text-black"
-                  style="font-size: 1.3vh; font-weight: 500"
-                >
-                  <td class="p-4 text-xs">{{ chamados.id }}</td>
-                  <td class="p-2 font-bold text-xs">
-                    {{chamados.para_o_setor}}
-                  </td>
-                  <td class="p-2 text-xs">{{ chamados.assunto }}</td>
-                  {% if chamados.situacao == 'Chamado Concluido' %}
-                  <td class="p-2 font-bold text-green-700 text-xs" >
-                    {{ chamados.situacao }}
-                  </td>
-                  {% elif chamados.situacao == 'Chamado Pendente' %}
-                  <td class="p-2 font-bold text-yellow-700 text-xs">
-                    {{ chamados.situacao }}
-                  </td>
-                  {% else %}
-                  <td class="p-2 text-xs">
-                    <p class="text-black">{{ chamados.situacao }}
-                  </td>
-                  {% endif %}
-                  {% if chamados.nivel == 'Pouco Urgente' %}
-                  <td class="p-2 font-bold text-green-700 text-xs">
-                    {{ chamados.nivel }}
-                  </td>
-                  {% elif chamados.nivel == 'Urgente' %}
-                  <td class="p-2 font-bold text-yellow-700 text-xs">
-                    {{ chamados.nivel }}
-                  </td>
-                  {% else %}
-                  <td class="p-2 font-bold text-red-700 text-xs">
-                    {{ chamados.nivel }}
-                  </td>
-                  {% endif %}
-                  <td class="p-2 font-bold text-xs">
-                    {{chamados.data_criacao}}
-                  </td>
-                  <td>
-                    <div
-                      class="flex justify-center items-center gap-4 text-xs px-6 py-4"
-                    >
-                      <a
-                        href="{% url 'ver_chamado' chamados.id %}"
-                        class="font-medium rounded"
-                        title="Ver Chamado"
-                      >
-                        <i
-                          class="fas fa-eye open-icon fa-xl text-black hover:text-red-500"
-                        ></i>
-                      </a>
-                      
-                      {% if chamados.situacao == 'Chamado Aberto' %}
-                    <a href="{% url 'excluir_chamado' chamados.id %}" class="font-medium rounded" title="Excluir Chamado"
-                      onclick="return confirm('Tem certeza que deseja EXCLUIR este chamado?');">
+
+      <div class="flex flex-col gap-8 w-full">
+        {% if chamados %}
+        <div class="overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="text-center w-full">
+            <thead class="text-xs text-white uppercase bg-black">
+              <tr>
+                <th scope="col" class="p-4">ID</th>
+                <th scope="col" class="p-4">Setor Destino</th>
+                <th scope="col" class="px-6 py-3">Assunto</th>
+                <th scope="col" class="px-6 py-3">Situação</th>
+                <th scope="col" class="px-6 py-3">Nivel</th>
+                <th scope="col" class="px-6 py-3">Data de Criação</th>
+                <th scope="col" class="px-6 py-3">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for chamado in page_obj %}
+              <tr class="bg-white border-b text-black text-sm font-medium">
+                <td class="p-4">{{ chamado.id }}</td>
+                <td class="p-2 font-bold">{{ chamado.para_o_setor }}</td>
+                <td class="p-2">{{ chamado.assunto }}</td>
+                <td class="p-2 font-bold {% if chamado.situacao == 'Chamado Concluido' %}text-green-700{% elif chamado.situacao == 'Chamado Pendente' %}text-yellow-700{% else %}text-black{% endif %}">
+                  {{ chamado.situacao }}
+                </td>
+                <td class="p-2 font-bold {% if chamado.nivel == 'Pouco Urgente' %}text-green-700{% elif chamado.nivel == 'Urgente' %}text-yellow-700{% else %}text-red-700{% endif %}">
+                  {{ chamado.nivel }}
+                </td>
+                <td class="p-2">{{ chamado.data_criacao }}</td>
+                <td class="p-2">
+                  <div class="flex justify-center items-center gap-4 text-xs">
+                    <a href="{% url 'ver_chamado' chamado.id %}" class="font-medium rounded" title="Ver Chamado">
+                      <i class="fas fa-eye fa-xl text-black hover:text-red-500"></i>
+                    </a>
+                    {% if chamado.situacao == 'Chamado Aberto' %}
+                    <a href="{% url 'excluir_chamado' chamado.id %}" class="font-medium rounded" title="Excluir Chamado" onclick="return confirmarAcao('{% url 'excluir_chamado' chamado.id %}');">
                       <i class="fas fa-trash fa-xl text-black hover:text-red-500"></i>
                     </a>
-                  {% endif %}
-                  {% if chamados.situacao == 'Chamado Concluido' %}
-                  <a
-                  href="{% url 'reabrir_chamado' chamados.id %}"
-                  class="font-medium rounded"
-                  title="Reabrir Chamado"
-                  onclick="return confirm('Tem certeza que deseja REABRIR este chamado?');">
-                
-                  <i
-                    class="fas fa-arrow-alt-circle-up fa-xl text-black hover:text-red-500"
-                  ></i>
-                  <a href="{% url 'finalizar_chamado' chamados.id %}"
-                  class="font-medium rounded"
-                  title="Finalizar Chamado"
-                >
-                  <i
-                    class="fas fa-flag-checkered fa-xl text-black hover:text-red-500"
-                  ></i>
-              {% endif %}
-                      {% endfor %}
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    {% elif chamado.situacao == 'Chamado Concluido' %}
+                    <a href="{% url 'reabrir_chamado' chamado.id %}" class="font-medium rounded" title="Reabrir Chamado" onclick="return confirmarAcao('{% url 'reabrir_chamado' chamado.id %}');">
+                      <i class="fas fa-arrow-alt-circle-up fa-xl text-black hover:text-red-500"></i>
+                    </a>
+                    <a href="{% url 'finalizar_chamado' chamado.id %}" class="font-medium rounded" title="Finalizar Chamado">
+                      <i class="fas fa-flag-checkered fa-xl text-black hover:text-red-500"></i>
+                    </a>
+                    {% endif %}
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <br />
-        <div class="flex justify-center items-center">
-          <nav aria-label="Page navigation example">
+        <div class="flex items-center justify-center mt-4">
+          <a href="/SOS/abrir/chamado/" class="px-2 py-2 bg-black text-white font-semibold text-2xl rounded shadow">
+            Abrir Chamado
+          </a>
+        </div><br>
+        <div class="flex justify-center items-center mt-4">
+          <nav aria-label="Page navigation">
             <ul class="inline-flex -space-x-px text-sm">
               {% if page_obj.has_previous %}
               <li>
-                <a
-                  href="?page={{ page_obj.previous_page_number }}"
-                  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-black bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
-                  >Anterior</a
-                >
+                <a href="?page={{ page_obj.previous_page_number }}" class="flex items-center justify-center px-3 h-8 text-black bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Anterior</a>
               </li>
-              {% endif %} {% for num in page_obj.paginator.page_range %}
+              {% endif %}
+              {% for num in page_obj.paginator.page_range %}
               <li>
-                <a
-                  href="?page={{ num }}"
-                  class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 {% if page_obj.number == num %}text-teal-500 hover:bg-cyan-600 font-bold hover:text-teal-500{% else %}hover:bg-teal-600 hover:text-white{% endif %}"
-                >
-                  {{ num }}
-                </a>
+                <a href="?page={{ num }}" class="flex items-center justify-center px-3 h-8 text-black bg-white border border-gray-300 {% if page_obj.number == num %}text-teal-500 hover:bg-cyan-600 font-bold hover:text-teal-500{% else %}hover:bg-teal-600 hover:text-white{% endif %}">{{ num }}</a>
               </li>
-              {% endfor %} {% if page_obj.has_next %}
+              {% endfor %}
+              {% if page_obj.has_next %}
               <li>
-                <a
-                  href="?page={{ page_obj.next_page_number }}"
-                  class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
-                  >Próxima</a
-                >
+                <a href="?page={{ page_obj.next_page_number }}" class="flex items-center justify-center px-3 h-8 text-black bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Próxima</a>
               </li>
               {% endif %}
             </ul>
-            {%else%}
-            <div
-              class="w-full p-4 flex items-center justify-center text-teal-700 gap-4"
-            >
-              <i class="fa-solid fa-x fa-xl text-black hover:text-red-500"></i>
-              <h1 class="text-black" style="font-size: 3vh; font-family: Arial">
-                Não existem chamados!
-              </h1>
-              <i class="fa-solid fa-x fa-xl text-black hover:text-red-500"></i>
-              {% endif %}
-            </div>
           </nav>
         </div>
+        {% else %}
+        <div class="w-full p-4 flex items-center justify-center text-teal-700 gap-4">
+          <i class="fa-solid fa-x fa-xl text-black hover:text-red-500"></i>
+          <h1 class="text-black text-3xl">Não existem chamados!</h1>
+          <i class="fa-solid fa-x fa-xl text-black hover:text-red-500"></i>
+        </div>
+        <div class="flex items-center justify-center mt-4">
+          <a href="/SOS/abrir/chamado/" class="px-2 py-2 bg-black text-white font-semibold text-2xl rounded shadow">
+            Abrir Chamado
+          </a>
+        </div><br>
+        {% endif %}
       </div>
     </div>
   </div>
 </div>
-{% endblock%}
+{% endblock %}

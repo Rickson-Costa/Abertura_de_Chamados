@@ -36,7 +36,7 @@ def usuario_de_setor_especifico(setor):
 
 
 # Create your views here.
-#@usuario_de_setor_especifico('Tecnologia da Informação')
+@usuario_de_setor_especifico('Tecnologia da Informação')
 @login_required(login_url="/SOS/login/")
 def listagem_de_usuarios(request):
         users = User.objects.all()
@@ -45,7 +45,7 @@ def listagem_de_usuarios(request):
     
 def view_login(request):
     if request.user.is_authenticated:
-        return redirect('base')
+        return redirect('meus_chamados', 'todos')
 
     elif request.method == "GET":
         return render(request, 'login.html', {'erro_code': None})
@@ -58,7 +58,6 @@ def view_login(request):
                 # Verifica se o usuário já existe no banco de dados do Django
                 b_usuario = User.objects.filter(username=username).first()
                 if b_usuario:
-                    print('existe')
                     pass
                 else:
                     # Se o usuário não existe, cria um novo usuário inativo
@@ -73,7 +72,7 @@ def view_login(request):
                 print (user)
                 if user is not None:
                     login(request, user)
-                    return redirect('base')
+                    return redirect('meus_chamados', 'todos')
                 else:
                     return render(request, 'login.html', {'erro_code': "Conta desativada!"})
             
@@ -158,7 +157,7 @@ def abrir_chamado(request):
                             descricao=f"{novo_chamado.id}"
                         )
                         timeline.arquivos.add(novo_arquivo)
-        return  redirect(meus_chamados)
+        return redirect('meus_chamados', 'todos')
         
     else:
         return render(request, 'abrir_chamado.html', {'data': dados, 'users': users})
@@ -185,21 +184,16 @@ def inicio(request):
     usuario_logador = Dados.objects.get(username=request.user.username)
     
     chamados = Chamados.objects.all()
-    chamados_setor_destino = Chamados.objects.filter(para_o_setor = usuario_logador.setor)
+
     l_chamados_abertos = Chamados.objects.filter(para_o_setor = usuario_logador.setor, situacao='Chamado Aberto')
-    l_chamados_concluidos = Chamados.objects.filter(para_o_setor = usuario_logador.setor, situacao='Chamado Concluido')
     l_chamados_finalizados = Chamados.objects.filter(para_o_setor = usuario_logador.setor, situacao='Chamado Finalizado')
-    chamados_setor_origem = Chamados.objects.filter(setor = usuario_logador.setor)
 
     chamados_abertos = len(l_chamados_abertos)
     todos_os_chamados = len(chamados)
-    chamados_por_setor = len(chamados_setor_destino)
-    chamados_origem = len(chamados_setor_origem)
-    chamados_concluido = len(l_chamados_concluidos)
     chamados_finalizados = len(l_chamados_finalizados)
     
 
-    return render(request, 'home.html', {'data' : data, 'users' : users,'chamados_concluidos': chamados_concluido, 'chamados_finalizados' : chamados_finalizados, 'chamados_abertos': chamados_abertos, 'todos_os_chamados' : todos_os_chamados, 'chamados_por_setor' : chamados_por_setor, 'chamados_origem' : chamados_origem})
+    return render(request, 'home.html', {'data' : data, 'users' : users, 'chamados_finalizados' : chamados_finalizados, 'chamados_abertos': chamados_abertos, 'todos_os_chamados' : todos_os_chamados})
 
 def alterar_status(request, username):
         usuario = User.objects.get(username = username)

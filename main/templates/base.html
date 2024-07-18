@@ -54,11 +54,10 @@
                                     
                                 {% else %}
                                     <a href="/" class="block text-white" style="text-decoration: none; font-size: 2vh">
-                                        Home
+                                        Inicio
                                     </a>  
-                                   
-                                    <a href="/SOS/abrir/chamado/" class="block text-white" style="text-decoration: none; font-size: 2vh">
-                                        Abrir Chamado
+                                    <a href="/SOS/listar/meus/chamados/todos/" class="block hover:text-white" style="text-decoration: none; font-size: 2vh">
+                                        Meus Chamados 
                                     </a>
                                     <a href="/SOS/listar/chamados/todos/" class="block hover:text-white" style="text-decoration: none; font-size: 2vh">
                                         Atender Chamados
@@ -85,9 +84,6 @@
 
                                         {% for data in data %}
                                             {% if data.username == user.username %}
-                                                <li> <a href="/SOS/listar/meus/chamados/todos/" class="block px-4 py-2 hover:bg-gray-100 ">
-                                                    Meus Chamados </a>
-                                                </li>
                                                 {% if data.setor == 'Tecnologia da Informação' %}
                                                     <li>
                                                         <a href="/SOS/listar/usuarios/" class="block px-4 py-2 hover:bg-gray-100 ">Listar Usuarios</a>
