@@ -36,12 +36,41 @@
   </script>
   
   <div class="p-4 rounded shadow-sm">
-    <div class="flex items-center justify-center  mt-12">
-      <img src="{% static 'images/logo.png' %}" alt="HospDocs Logo" class="h-12 w-12 mr-4" />
-      <div class="flex flex-col">
-        <h1 class="text-black font-extrabold text-4xl m-0">SOS Chamados</h1>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 3vh;
+        margin-top: 6vh;
+      "
+    >
+    <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-64">
+      <ul class="py-2  text-gray-700 " aria-labelledby="avatarButton">
+
       </div>
-    </div><br>
+      <img style="height: 8vh; width: 8vh; margin-right: 0.444vh;" id="avatarButton" type="button" data-dropdown-toggle="Dropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 cursor-pointer" src="{% static 'images/logo.png' %}" alt="User dropdown">
+      <div id="Dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-64 absolute right-0 mt-2">
+        <div class="px-4 py-3 text-gray-900 text-center">
+          <ul class="py-2 text-gray-700" aria-labelledby="avatarButton">
+            <li>
+              <a href="{% url 'listar_chamados' 'todos' %}" class="block px-4 py-2 hover:bg-gray-100">Todos os chamados</a>
+            </li>
+            <li>
+              <a href="{% url 'listar_chamados' 'abertos' %}" class="block px-4 py-2 hover:bg-gray-100">Chamados abertos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <h1
+          class="text-black"
+          style="font-weight: 800; font-size: 4vh; margin: 0"
+        >
+          SOS Chamados
+        </h1>
+      </div>
+    </div>
 
 
       <div class="flex flex-col gap-8 w-full">
@@ -129,7 +158,7 @@
           <i class="fa-solid fa-x fa-xl text-black hover:text-red-500"></i>
         </div>
         <div class="flex items-center justify-center mt-4">
-          <a href="/SOS/abrir/chamado/" class="px-2 py-2 bg-black text-white font-semibold text-2xl rounded shadow">
+          <a href="/SOS/abrir/chamado/" class="px-2 py-1 bg-black text-white font-semibold text-2xl rounded shadow">
             Abrir Chamado
           </a>
         </div><br>
