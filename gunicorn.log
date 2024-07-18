@@ -1,5 +1,13 @@
 nohup: ignoring input
-[2024-07-18 17:07:55 +0000] [10588] [INFO] Starting gunicorn 21.2.0
-[2024-07-18 17:07:55 +0000] [10588] [INFO] Listening at: http://0.0.0.0:8000 (10588)
-[2024-07-18 17:07:55 +0000] [10588] [INFO] Using worker: sync
-[2024-07-18 17:07:55 +0000] [10591] [INFO] Booting worker with pid: 10591
+[2024-07-18 23:38:13 +0000] [12170] [INFO] Starting gunicorn 21.2.0
+[2024-07-18 23:38:13 +0000] [12170] [INFO] Listening at: http://0.0.0.0:8000 (12170)
+[2024-07-18 23:38:13 +0000] [12170] [INFO] Using worker: sync
+[2024-07-18 23:38:13 +0000] [12173] [INFO] Booting worker with pid: 12173
+[2024-07-18 23:39:44 +0000] [12170] [INFO] Handling signal: term
+[2024-07-18 20:39:44 -0300] [12173] [INFO] Worker exiting (pid: 12173)
+rute.freitas
+rute.freitas
+rute.freitas
+rute.freitas
+[2024-07-18 23:39:44 +0000] [12170] [ERROR] Worker (pid:12173) was sent SIGTERM!
+[2024-07-18 23:39:44 +0000] [12170] [INFO] Shutting down: Master

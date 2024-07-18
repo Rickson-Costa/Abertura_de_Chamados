@@ -23,7 +23,7 @@ hora_atual = datetime.now(timezone)
 
 # Obter o dia, mês e ano
 dia = str(hora_atual.day)
-mes = hora_atual.strftime('%B')
+mês = hora_atual.strftime('%B')
 ano = str(hora_atual.year)
 hora_atual_formatada = hora_atual.strftime('%H:%M:%S')
 
