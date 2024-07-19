@@ -1,5 +1,4 @@
-Usuario: admin 
-Senha: admin
+
 
 Tela de Login:
 ![Captura de tela 2024-07-06 133114](https://github.com/Rickson-Costa/Abertura_de_Chamados/assets/149190460/68f89f84-52b2-4a5b-b496-0a860d324a45)
