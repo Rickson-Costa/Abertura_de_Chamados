@@ -1,13 +1,28 @@
 nohup: ignoring input
-[2024-07-18 23:38:13 +0000] [12170] [INFO] Starting gunicorn 21.2.0
-[2024-07-18 23:38:13 +0000] [12170] [INFO] Listening at: http://0.0.0.0:8000 (12170)
-[2024-07-18 23:38:13 +0000] [12170] [INFO] Using worker: sync
-[2024-07-18 23:38:13 +0000] [12173] [INFO] Booting worker with pid: 12173
-[2024-07-18 23:39:44 +0000] [12170] [INFO] Handling signal: term
-[2024-07-18 20:39:44 -0300] [12173] [INFO] Worker exiting (pid: 12173)
-rute.freitas
-rute.freitas
-rute.freitas
-rute.freitas
-[2024-07-18 23:39:44 +0000] [12170] [ERROR] Worker (pid:12173) was sent SIGTERM!
-[2024-07-18 23:39:44 +0000] [12170] [INFO] Shutting down: Master
+[2024-07-18 23:43:51 +0000] [12280] [INFO] Starting gunicorn 21.2.0
+[2024-07-18 23:43:51 +0000] [12280] [INFO] Listening at: http://0.0.0.0:8000 (12280)
+[2024-07-18 23:43:51 +0000] [12280] [INFO] Using worker: sync
+[2024-07-18 23:43:51 +0000] [12283] [INFO] Booting worker with pid: 12283
+O usuário rute.freitas, alterou o setor do usuário yasmin.chagas para Laboratório Campina Grande.
+O usuário rute.freitas, alterou o cargo do usuário yasmin.chagas para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário yasmin.chagas para =João Pessoa.
+O usuário rute.freitas, alterou o setor do usuário janiny.silva para Laboratório Campina Grande.
+O usuário rute.freitas, alterou o cargo do usuário janiny.silva para Biomédico.
+O usuário rute.freitas, alterou o local de trabalho do usuário janiny.silva para =João Pessoa.
+O usuário rute.freitas, alterou o setor do usuário kaliandra.rocha para Laboratório Campina Grande.
+O usuário rute.freitas, alterou o cargo do usuário kaliandra.rocha para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário kaliandra.rocha para =João Pessoa.
+O usuário rute.freitas, alterou o setor do usuário janiny.silva para Laboratório Campina Grande.
+O usuário rute.freitas, alterou o cargo do usuário janiny.silva para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário janiny.silva para =João Pessoa.
+O usuário rute.freitas, alterou o setor do usuário thais.brito para Laboratório Bancários.
+O usuário rute.freitas, alterou o cargo do usuário thais.brito para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário thais.brito para =João Pessoa.
+O usuário rute.freitas, alterou o setor do usuário ionise.silva para Laboratório Matriz.
+O usuário rute.freitas, alterou o cargo do usuário ionise.silva para Coordenador.
+O usuário rute.freitas, alterou o local de trabalho do usuário ionise.silva para =João Pessoa.
+Cadastro de um novo usuário
+O usuário rute.freitas, alterou o setor do usuário rafaela.monique para Laboratório Bancários.
+O usuário rute.freitas, alterou o cargo do usuário rafaela.monique para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário rafaela.monique para =João Pessoa.
+rute.freitas ativou a conta do usuario rafaela.monique
