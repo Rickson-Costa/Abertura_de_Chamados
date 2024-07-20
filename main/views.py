@@ -152,17 +152,31 @@ def abrir_chamado(request):
         if 'file_of' in request.FILES:
             files = request.FILES.getlist('file_of')
             for file in files:
-                caminho_destino = os.path.join(settings.MEDIA_ROOT)
-                os.makedirs(f'{caminho_destino}/{str(novo_chamado.id)}', exist_ok=True)
-                with open(os.path.join(f'{caminho_destino}/{str(novo_chamado.id)}', file.name), 'wb+') as destino:
+                # Cria o diretório para o novo chamado se ele não existir
+                caminho_destino = os.path.join(settings.MEDIA_ROOT, str(novo_chamado.id))
+                os.makedirs(caminho_destino, exist_ok=True)
+                
+                # Define o caminho relativo para salvar no modelo
+                caminho_relativo = os.path.join(str(novo_chamado.id), file.name)
+                
+                # Mover o arquivo para o diretório de destino
+                with open(os.path.join(caminho_destino, file.name), 'wb+') as destino:
                     for chunk in file.chunks():
                         destino.write(chunk)
-                        # Criando uma instância de Arquivo e associando à Timeline
-                        novo_arquivo = Arquivo.objects.create(
-                            arquivo=file,
-                            descricao=f"{novo_chamado.id}"
-                        )
-                        timeline.arquivos.add(novo_arquivo)
+                
+                # Cria uma instância de Arquivo com o caminho correto
+                novo_arquivo = Arquivo(
+                    arquivo=caminho_relativo,
+                    descricao=f"{novo_chamado.id}"
+                )
+                
+                # Salva a instância do modelo para que o Django gerencie o arquivo
+                novo_arquivo.save()
+                
+                # Adiciona o arquivo à timeline
+                timeline.arquivos.add(novo_arquivo)
+
+
         return redirect('meus_chamados', 'todos')
         
     else:
