@@ -1,6 +1,223 @@
 nohup: ignoring input
-[2024-07-19 13:48:11 +0000] [16050] [INFO] Starting gunicorn 21.2.0
-[2024-07-19 13:48:11 +0000] [16050] [INFO] Listening at: http://0.0.0.0:8000 (16050)
-[2024-07-19 13:48:11 +0000] [16050] [INFO] Using worker: sync
-[2024-07-19 13:48:11 +0000] [16053] [INFO] Booting worker with pid: 16053
-Not Found: /favicon.ico
+[2024-07-19 13:54:47 +0000] [16260] [INFO] Starting gunicorn 21.2.0
+[2024-07-19 13:54:47 +0000] [16260] [INFO] Listening at: http://0.0.0.0:8000 (16260)
+[2024-07-19 13:54:47 +0000] [16260] [INFO] Using worker: sync
+[2024-07-19 13:54:47 +0000] [16263] [INFO] Booting worker with pid: 16263
+Cadastro de um novo usuário
+Cadastro de um novo usuário
+O usuário rute.freitas, deletou a conta de thaisfsbrito@hotmail.com com sucesso!
+O usuário rute.freitas, deletou a conta de kally_srocha com sucesso!
+Cadastro de um novo usuário
+rute.freitas ativou a conta do usuario amanda.costa
+O usuário rute.freitas, alterou o setor do usuário amanda.costa para Laboratório Centro.
+O usuário rute.freitas, alterou o cargo do usuário amanda.costa para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário amanda.costa para =João Pessoa.
+Cadastro de um novo usuário
+rute.freitas ativou a conta do usuario eduarda.pereira
+O usuário rute.freitas, alterou o setor do usuário eduarda.pereira para Laboratório Centro.
+O usuário rute.freitas, alterou o cargo do usuário eduarda.pereira para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário eduarda.pereira para =João Pessoa.
+O usuário rute.freitas, alterou o setor do usuário eduarda.pereira para Laboratório Centro.
+O usuário rute.freitas, alterou o cargo do usuário eduarda.pereira para Colaborador.
+O usuário rute.freitas, alterou o local de trabalho do usuário eduarda.pereira para =João Pessoa.
+Cadastro de um novo usuário
+O usuário rute.freitas, deletou a conta de rafaelamonique com sucesso!
+O usuário rute.freitas, alterou o setor do usuário yasmin.menezes para Laboratório Matriz.
+O usuário rute.freitas, alterou o cargo do usuário yasmin.menezes para Gerente.
+O usuário rute.freitas, alterou o local de trabalho do usuário yasmin.menezes para =João Pessoa.
+[2024-09-11 22:11:06 -0300] [16263] [INFO] Worker exiting (pid: 16263)
+rute.freitas
+14
+15
+14
+14
+rute.freitas
+rute.freitas
+14
+15
+rute.freitas
+rute.freitas
+rute.freitas
+rute.freitas
+rute.freitas
+17
+rute.freitas
+janiny.silva
+janiny.silva
+rute.freitas
+janiny.silva
+18
+janiny.silva
+janiny.silva
+18
+rafaela.monique
+rafaela.monique
+rafaela.monique
+rafaela.monique
+rute.freitas
+janiny.silva
+janiny.silva
+janiny.silva
+yasmin.chagas
+yasmin.chagas
+yasmin.chagas
+rute.freitas
+21
+rute.freitas
+luana.lima
+rute.freitas
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+rute.freitas
+rute.freitas
+None
+None
+None
+None
+None
+None
+None
+janiny.silva
+janiny.silva
+janiny.silva
+ionise.silva
+ionise.silva
+ionise.silva
+rute.freitas
+rute.freitas
+rute.freitas
+rute.freitas
+rute.freitas
+rute.freitas
+yasmin.menezes
+yasmin.menezes
+yasmin.menezes
+thais.brito
+thais.brito
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+thais.brito
+thais.brito
+thais.brito
+thais.brito
+ionise.silva
+ionise.silva
+ionise.silva
+ionise.silva
+ionise.silva
+janiny.silva
+janiny.silva
+janiny.silva
+29
+30
+30
+32
+rute.freitas
+amanda.costa
+amanda.costa
+amanda.costa
+36
+None
+eduarda.pereira
+janiny.silva
+janiny.silva
+janiny.silva
+janiny.silva
+rafaela.monique
+rafaela.monique
+rafaela.monique
+luana.lima
+luana.lima
+rute.freitas
+luana.lima
+rute.freitas
+rute.freitas
+rute.freitas
+29
+29
+30
+32
+rute.freitas
+rafaela.monique
+rafaela.monique
+rafaela.monique
+rafaela.monique
+rute.freitas
+29
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+rute.freitas
+ionise.silva
+ionise.silva
+ionise.silva
+ionise.silva
+ionise.silva
+yasmin.menezes
+yasmin.menezes
+yasmin.menezes
+yasmin.menezes
+yasmin.menezes
+rute.freitas
+rafaela.monique
+rafaela.monique
+rafaela.monique
+rute.freitas
+rute.freitas
+rute.freitas
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+rute.freitas
+rute.freitas
+yasmin.menezes
+yasmin.menezes
+yasmin.menezes
+yasmin.menezes
+rute.freitas
+rute.freitas
+36
+rute.freitas
+ionise.silva
+rafaela.monique
+rafaela.monique
+rafaela.monique
+rute.freitas
+rute.freitas
+rute.freitas
+51
+kaliandra.rocha
+kaliandra.rocha
+kaliandra.rocha
+rute.freitas
+rute.freitas
+kaliandra.rocha
+kaliandra.rocha
+rute.freitas
+rute.freitas
+rute.freitas
+[2024-09-12 01:11:08 +0000] [16260] [INFO] Handling signal: term
+[2024-09-12 01:11:13 +0000] [16260] [ERROR] Worker (pid:16263) was sent SIGTERM!
+[2024-09-12 01:11:13 +0000] [16260] [INFO] Shutting down: Master
